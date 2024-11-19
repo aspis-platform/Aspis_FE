@@ -1,12 +1,12 @@
-name: Staging Deploy
+name: Production Deploy
 
 on:
   push:
     branches:
-      - develop
+      - main
 
 jobs:
-  staging-deploy:
+  production-deploy:
     runs-on: ubuntu-latest
 
     environment: DEPLOY
@@ -33,7 +33,7 @@ jobs:
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        S3_BUCKET_NAME: ${{ secrets.S3_BUCKET_STAGING }} 
+        S3_BUCKET_NAME: ${{ secrets.S3_BUCKET_PROD }} 
         AWS_REGION: ${{ secrets.AWS_REGION }}
       run: |
         aws s3 sync dist/ s3://$S3_BUCKET_NAME --delete --region $AWS_REGION
@@ -45,4 +45,4 @@ jobs:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         AWS_REGION: 'us-east-1'
-        DISTRIBUTION: ${{ secrets.CLOUDFRONT_DISTRIBUTION_STAGING }}
+        DISTRIBUTION: ${{ secrets.CLOUDFRONT_DISTRIBUTION_PROD }}
