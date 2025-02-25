@@ -27,7 +27,7 @@ const LoginPage = () => {
               <InputComponent label={"아이디"} />
               <InputComponent label={"비밀번호"} />
             </InputSection>
-            <SubmitButton>로그인하기</SubmitButton>
+            <SubmitButton>로그인</SubmitButton>
           </StyledSection>
         </LoginCard>
       </LoginContainer>
@@ -104,6 +104,7 @@ const SubmitButton = styled.button`
   background-color: ${theme.color.sub[4]};
   font-size: 20px;
   border-radius: 8px;
+  cursor: pointer;
 `;
 const LoginTitle = styled.div`
   font-size: 40px;
