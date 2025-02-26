@@ -29,6 +29,16 @@
   font-weight: 600;
   src: url("./font/Pretendard-SemiBold.woff") format("woff");
 }
+@font-face {
+  font-family: "Pretendard";
+  font-weight: 300;
+  src: url("./font/Pretendard-Light.woff") format("woff");
+}
+@font-face {
+  font-family: "Pretendard";
+  font-weight: 200;
+  src: url("./font/Pretendard-ExtraLight.woff") format("woff");
+}
 
 body {
   font-family: "Pretendard";
