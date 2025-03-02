@@ -45,7 +45,19 @@ const ButtonBox = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-between;
   gap: 40px;
+
+  @media (max-width: 925px) {
+    width: 264px;
+    height: 360px;
+    padding: 20px 20px;
+    gap: 20px;
+
+    img {
+      width: 60%;
+    }
+  }
 `;
 const ButtonContainer = styled.div`
   width: 100%;
@@ -63,6 +75,10 @@ const Title = styled.div`
   font-size: 28px;
   font-weight: 800;
   color: ${theme.color.black};
+
+  @media (max-width: 925px) {
+    font-size: 22px;
+  }
 `;
 const HomeContainer = styled.div`
   width: 100%;
@@ -72,6 +88,10 @@ const HomeContainer = styled.div`
   flex-direction: column;
   align-items: flex-start;
   gap: 72px;
+
+  @media (max-width: 925px) {
+    gap: 50px;
+  }
 `;
 const HomeSection = styled.div`
   width: 100%;
@@ -81,6 +101,10 @@ const HomeSection = styled.div`
 
   display: flex;
   justify-content: center;
+
+  @media (max-width: 925px) {
+    padding: 36px 100px;
+  }
 `;
 
 export default HomePage;

@@ -19,6 +19,9 @@ const Label = styled.div`
   font-size: 20px;
   font-weight: 200;
   color: ${theme.color.black};
+  @media (max-width: 925px) {
+    font-size: 16px;
+  }
 `;
 const Input = styled.input`
   width: 100%;
@@ -27,6 +30,9 @@ const Input = styled.input`
   border: none;
   border-bottom: 1px solid ${theme.color.black};
   padding-left: 12px;
+  @media (max-width: 925px) {
+    height: 40px;
+  }
 `;
 const InputContainer = styled.div`
   display: flex;

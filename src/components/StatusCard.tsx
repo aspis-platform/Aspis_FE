@@ -36,16 +36,31 @@ const CardBox = styled.div`
 
   font-size: 24px;
   font-weight: 600;
+
+  @media (max-width: 925px) {
+    width: 140px;
+    height: 68px;
+
+    font-size: 20px;
+  }
 `;
 const Name = styled.div`
   font-size: 20px;
   font-weight: 600;
+
+  @media (max-width: 925px) {
+    font-size: 16px;
+  }
 `;
 const CardSection = styled.section`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 16px;
+
+  @media (max-width: 925px) {
+    gap: 8px;
+  }
 `;
 
 export default StatusCard;

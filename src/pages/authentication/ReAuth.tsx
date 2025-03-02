@@ -24,6 +24,10 @@ const FormSection = styled.section`
   display: flex;
   flex-direction: column;
   gap: 52px;
+  @media (max-width: 925px) {
+    width: 380px;
+    gap: 48px;
+  }
 `;
 const Button = styled.button`
   width: 400px;
@@ -34,6 +38,11 @@ const Button = styled.button`
   font-size: 20px;
   font-weight: 400;
   cursor: pointer;
+
+  @media (max-width: 925px) {
+    width: 380px;
+    height: 56px;
+  }
 `;
 const Title = styled.div`
   display: flex;
@@ -44,11 +53,19 @@ const Title = styled.div`
   font-size: 20px;
   font-weight: 400;
   color: #6d6d6d;
+
+  @media (max-width: 925px) {
+    gap: 10px;
+    font-size: 20px;
+  }
 `;
 const BigText = styled.div`
   font-size: 40px;
   font-weight: 800;
   color: ${theme.color.black};
+  @media (max-width: 925px) {
+    font-size: 32px;
+  }
 `;
 const StyledContainer = styled.div`
   width: 640px;
@@ -62,6 +79,13 @@ const StyledContainer = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 160px;
+
+  @media (max-width: 925px) {
+    width: 480px;
+    height: 520px;
+    padding: 60px 0;
+    gap: 120px;
+  }
 `;
 const StyledSection = styled.section`
   width: 100vw;

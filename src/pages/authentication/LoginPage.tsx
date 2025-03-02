@@ -50,6 +50,16 @@ const AspisCard = styled.div`
     width: 88px;
     height: 88px;
   }
+
+  @media (max-width: 925px) {
+    width: 300px;
+    height: 240px;
+
+    img {
+      width: 60px;
+      height: 60px;
+    }
+  }
 `;
 const Title = styled.div`
   color: ${theme.color.main[4]};
@@ -60,6 +70,11 @@ const Title = styled.div`
   display: flex;
   flex-direction: row;
   gap: 16px;
+
+  @media (max-width: 925px) {
+    font-size: 24px;
+    gap: 8px;
+  }
 `;
 const EngTitle = styled.div`
   font-weight: 300;
@@ -68,6 +83,9 @@ const SubText = styled.div`
   font-size: 16px;
   font-weight: 400;
   color: #858585;
+  @media (max-width: 925px) {
+    font-size: 14px;
+  }
 `;
 const LoginCard = styled.div`
   width: 600px;
@@ -80,6 +98,13 @@ const LoginCard = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  @media (max-width: 925px) {
+    width: 340px;
+    height: 400px;
+
+    padding: 50px 8%;
+  }
 `;
 const StyledSection = styled.section`
   display: flex;
@@ -89,6 +114,10 @@ const StyledSection = styled.section`
 
   width: 100%;
   height: 100%;
+
+  @media (max-width: 925px) {
+    gap: 30px;
+  }
 `;
 const InputSection = styled.section`
   display: flex;
@@ -96,6 +125,9 @@ const InputSection = styled.section`
   gap: 48px;
 
   width: 100%;
+  @media (max-width: 925px) {
+    gap: 20px;
+  }
 `;
 const SubmitButton = styled.button`
   width: 100%;
@@ -105,10 +137,18 @@ const SubmitButton = styled.button`
   font-size: 20px;
   border-radius: 8px;
   cursor: pointer;
+
+  @media (max-width: 925px) {
+    height: 48px;
+    font-size: 16px;
+  }
 `;
 const LoginTitle = styled.div`
   font-size: 40px;
   font-weight: 600;
+  @media (max-width: 925px) {
+    font-size: 28px;
+  }
 `;
 const AspisIntro = styled.div`
   width: 600px;
@@ -120,6 +160,11 @@ const AspisIntro = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  @media (max-width: 925px) {
+    width: 340px;
+    height: 400px;
+  }
 `;
 const LoginContainer = styled.div`
   display: flex;

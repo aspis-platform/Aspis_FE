@@ -1,4 +1,3 @@
-import React from "react";
 import { theme } from "../../style/theme";
 import styled from "styled-components";
 import aspis_logo from "../../assets/aspis-logo.svg";
@@ -31,6 +30,10 @@ const InputSection = styled.section`
   flex-direction: column;
   gap: 52px;
   width: 100%;
+
+  @media (max-width: 925px) {
+    gap: 24px;
+  }
 `;
 const Title = styled.div`
   display: flex;
@@ -43,6 +46,15 @@ const Title = styled.div`
   img {
     width: 72px;
     height: 84px;
+  }
+
+  @media (max-width: 925px) {
+    font-size: 24px;
+
+    img {
+      width: 60px;
+      height: 72px;
+    }
   }
 `;
 const SignupContainer = styled.div`
@@ -57,6 +69,14 @@ const SignupContainer = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 60px;
+
+  @media (max-width: 925px) {
+    width: 440px;
+    height: 480px;
+
+    padding: 8px 6%;
+    gap: 30px;
+  }
 `;
 const SignupSection = styled.section`
   width: 100vw;
@@ -76,6 +96,11 @@ const EmailBox = styled.div`
   color: #8d8d8d;
   font-size: 20px;
   font-weight: 400;
+
+  @media (max-width: 925px) {
+    font-size: 16px;
+    gap: 10px;
+  }
 `;
 const Label = styled.div`
   font-weight: 200;
@@ -89,6 +114,11 @@ const SubmitButton = styled.button`
   font-size: 20px;
   border-radius: 8px;
   cursor: pointer;
+
+  @media (max-width: 925px) {
+    height: 48px;
+    font-size: 16px;
+  }
 `;
 
 export default SignupPage;

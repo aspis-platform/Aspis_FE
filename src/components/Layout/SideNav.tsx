@@ -50,6 +50,10 @@ const StyledDiv = styled.div`
   display: flex;
   flex-direction: column;
   gap: 100px;
+
+  @media (max-width: 925px) {
+    gap: 60px;
+  }
 `;
 const MypageButton = styled.div`
   display: flex;
@@ -57,12 +61,25 @@ const MypageButton = styled.div`
   gap: 8px;
   font-size: 24px;
   font-weight: 600;
+  align-items: center;
+
+  @media (max-width: 925px) {
+    font-size: 18px;
+    img {
+      width: 24px;
+      height: 24px;
+    }
+  }
 `;
 const ButtonSection = styled.section`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 36px;
+
+  @media (max-width: 925px) {
+    gap: 28px;
+  }
 `;
 const NavButton = styled.div`
   display: flex;
@@ -71,6 +88,15 @@ const NavButton = styled.div`
   color: ${theme.color.black};
   font-size: 24px;
   font-weight: 500;
+
+  @media (max-width: 925px) {
+    font-size: 18px;
+
+    img {
+      width: 20px;
+      height: 20px;
+    }
+  }
 `;
 const Logo = styled.div`
   color: ${theme.color.main[4]};
@@ -86,6 +112,16 @@ const Logo = styled.div`
     width: 36px;
     height: 40px;
   }
+
+  @media (max-width: 925px) {
+    font-size: 30px;
+    gap: 8px;
+
+    img {
+      width: 30px;
+      height: 36px;
+    }
+  }
 `;
 const NavSection = styled.section`
   width: 290px;
@@ -100,6 +136,12 @@ const NavSection = styled.section`
   gap: 100px;
   justify-content: space-between;
   flex-shrink: 0;
+
+  @media (max-width: 925px) {
+    width: 200px;
+    padding: 32px 0 40px 30px;
+    gap: 50px;
+  }
 `;
 
 export default SideNav;
