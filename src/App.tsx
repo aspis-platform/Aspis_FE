@@ -7,6 +7,7 @@ import SignupPage from "./pages/authentication/SignupPage";
 import HomePage from "./pages/Home/HomePage";
 import ReAuth from "./pages/authentication/ReAuth";
 import Mypage from "./pages/authentication/Mypage";
+import StaffManagement from "./pages/management/StaffManagement";
 
 function Layout() {
   return (
@@ -24,8 +25,9 @@ function App() {
     <Routes>
       {/* 사이드 네비게이션 있는 페이지들 */}
       <Route path="/" element={<Layout />}>
-        <Route path="/home" element={<HomePage />} />
+        <Route path="/" element={<HomePage />} />
         <Route path="/mypage" element={<Mypage />} />
+        <Route path="/staff-manage" element={<StaffManagement />} />
       </Route>
 
       {/* 사이드 네비게이션 없는 페이지들 */}

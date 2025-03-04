@@ -4,6 +4,7 @@ import styled from "styled-components";
 import StatusCard from "../../components/StatusCard";
 import dog_img_big from "../../assets/dog-image-big.svg";
 import staff_img from "../../assets/staff-img.svg";
+import { Link } from "react-router-dom";
 
 const HomePage = () => {
   return (
@@ -21,10 +22,13 @@ const HomePage = () => {
             <p>애견 관리 페이지 바로가기</p>
             <img src={dog_img_big} />
           </ButtonBox>
-          <ButtonBox>
-            <p>스태프 관리 페이지 바로가기</p>
-            <img src={staff_img} />
-          </ButtonBox>
+
+          <Link to={"/staff-manage"} style={{ textDecoration: "none" }}>
+            <ButtonBox>
+              <p>스태프 관리 페이지 바로가기</p>
+              <img src={staff_img} />
+            </ButtonBox>
+          </Link>
         </ButtonContainer>
       </HomeContainer>
     </HomeSection>
@@ -41,6 +45,7 @@ const ButtonBox = styled.div`
   padding: 20px 40px;
   font-size: 16px;
   font-weight: 600;
+  color: black;
 
   display: flex;
   flex-direction: column;
