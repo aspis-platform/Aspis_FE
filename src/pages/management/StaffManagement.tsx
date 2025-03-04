@@ -11,8 +11,6 @@ const staffList = [
   { id: 2, name: "홍길동", email: "redroadman@mail.com", joined: false },
   { id: 3, name: "홍길동", email: "redroadman@mail.com", joined: true },
   { id: 4, name: "홍길동", email: "redroadman@mail.com", joined: true },
-  { id: 4, name: "홍길동", email: "redroadman@mail.com", joined: true },
-  { id: 4, name: "홍길동", email: "redroadman@mail.com", joined: true },
 ];
 
 const StaffManagement = () => {
@@ -86,7 +84,7 @@ const Tr = styled.tr`
 `;
 const Th = styled.th`
   padding: 12px;
-  font-weight: 600;
+  font-weight: 500;
   text-align: left;
 
   &:first-child {

@@ -21,17 +21,19 @@ const SideNav = () => {
         </Link>
 
         <ButtonSection>
-          <Link to={"/home"} style={{ textDecoration: "none" }}>
+          <Link to={"/"} style={{ textDecoration: "none" }}>
             <NavButton>
               <img src={home_icon_black} alt="" />
               <p>HOME</p>
             </NavButton>
           </Link>
 
-          <NavButton>
-            <img src={dog_icon} alt="" />
-            <p>애견 관리</p>
-          </NavButton>
+          <Link to={"/dog-manage"} style={{ textDecoration: "none" }}>
+            <NavButton>
+              <img src={dog_icon} alt="" />
+              <p>애견 관리</p>
+            </NavButton>
+          </Link>
 
           <Link to={"/staff-manage"} style={{ textDecoration: "none" }}>
             <NavButton>

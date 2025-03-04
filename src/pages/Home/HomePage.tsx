@@ -18,10 +18,12 @@ const HomePage = () => {
           <StatusCard name="보호중인 애견 수" number={4} unit="마리" />
         </CardContainer>
         <ButtonContainer>
-          <ButtonBox>
-            <p>애견 관리 페이지 바로가기</p>
-            <img src={dog_img_big} />
-          </ButtonBox>
+          <Link to={"/dog-manage"} style={{ textDecoration: "none" }}>
+            <ButtonBox>
+              <p>애견 관리 페이지 바로가기</p>
+              <img src={dog_img_big} />
+            </ButtonBox>
+          </Link>
 
           <Link to={"/staff-manage"} style={{ textDecoration: "none" }}>
             <ButtonBox>
@@ -54,7 +56,7 @@ const ButtonBox = styled.div`
   gap: 40px;
 
   @media (max-width: 925px) {
-    width: 264px;
+    width: 250px;
     height: 360px;
     padding: 20px 20px;
     gap: 20px;

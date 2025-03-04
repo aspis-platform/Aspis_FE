@@ -8,6 +8,7 @@ import HomePage from "./pages/Home/HomePage";
 import ReAuth from "./pages/authentication/ReAuth";
 import Mypage from "./pages/authentication/Mypage";
 import StaffManagement from "./pages/management/StaffManagement";
+import DogManagement from "./pages/management/DogManagement";
 
 function Layout() {
   return (
@@ -28,6 +29,7 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/mypage" element={<Mypage />} />
         <Route path="/staff-manage" element={<StaffManagement />} />
+        <Route path="/dog-manage" element={<DogManagement />} />
       </Route>
 
       {/* 사이드 네비게이션 없는 페이지들 */}
