@@ -13,28 +13,34 @@ const SideNav = () => {
   return (
     <NavSection>
       <StyledDiv>
-        <Logo>
-          <img src={logo} alt="" />
-          <p>Aspis</p>
-        </Logo>
+        <Link to={"/"} style={{ textDecoration: "none" }}>
+          <Logo>
+            <img src={logo} alt="" />
+            <p>Aspis</p>
+          </Logo>
+        </Link>
 
         <ButtonSection>
-          <Link to={"/home"} style={{ textDecoration: "none" }}>
+          <Link to={"/"} style={{ textDecoration: "none" }}>
             <NavButton>
               <img src={home_icon_black} alt="" />
               <p>HOME</p>
             </NavButton>
           </Link>
 
-          <NavButton>
-            <img src={dog_icon} alt="" />
-            <p>애견 관리</p>
-          </NavButton>
+          <Link to={"/dog-manage"} style={{ textDecoration: "none" }}>
+            <NavButton>
+              <img src={dog_icon} alt="" />
+              <p>애견 관리</p>
+            </NavButton>
+          </Link>
 
-          <NavButton>
-            <img src={staff_icon} alt="" />
-            <p>스태프 관리</p>
-          </NavButton>
+          <Link to={"/staff-manage"} style={{ textDecoration: "none" }}>
+            <NavButton>
+              <img src={staff_icon} alt="" />
+              <p>스태프 관리</p>
+            </NavButton>
+          </Link>
         </ButtonSection>
       </StyledDiv>
 
@@ -70,6 +76,8 @@ const MypageButton = styled.div`
       height: 24px;
     }
   }
+
+  cursor: pointer;
 `;
 const ButtonSection = styled.section`
   display: flex;

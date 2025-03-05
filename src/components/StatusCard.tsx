@@ -1,4 +1,3 @@
-import React from "react";
 import { theme } from "../style/theme";
 import styled from "styled-components";
 
@@ -38,7 +37,7 @@ const CardBox = styled.div`
   font-weight: 600;
 
   @media (max-width: 925px) {
-    width: 140px;
+    width: 120px;
     height: 68px;
 
     font-size: 20px;
