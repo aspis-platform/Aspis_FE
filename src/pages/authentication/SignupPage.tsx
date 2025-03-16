@@ -12,10 +12,7 @@ const SignupPage = () => {
           <p>회원가입</p>
         </Title>
         <InputSection>
-          <EmailBox>
-            <Label>이메일</Label>
-            <p>emailemailemailemail</p>
-          </EmailBox>
+          <InputComponent label="이메일" />
           <InputComponent label="아이디" />
           <InputComponent label="비밀번호" />
         </InputSection>
@@ -28,7 +25,7 @@ const SignupPage = () => {
 const InputSection = styled.section`
   display: flex;
   flex-direction: column;
-  gap: 52px;
+  gap: 44px;
   width: 100%;
 
   @media (max-width: 925px) {
@@ -108,7 +105,7 @@ const Label = styled.div`
 `;
 const SubmitButton = styled.button`
   width: 100%;
-  height: 60px;
+  height: 64px;
   border: none;
   background-color: ${theme.color.sub[4]};
   font-size: 20px;
