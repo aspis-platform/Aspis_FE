@@ -1,24 +1,59 @@
-import React from "react";
 import { theme } from "../../style/theme";
 import styled from "styled-components";
 import plus_icon from "../../assets/plus-icon.svg";
 import check from "../../assets/check-icon.svg";
 import cross from "../../assets/cross-icon.svg";
-
-// 더미 데이터
-const staffList = [
-  { id: 1, name: "홍길동", email: "hello@mail.com", joined: true },
-  { id: 2, name: "홍길동", email: "redroadman@mail.com", joined: false },
-  { id: 3, name: "홍길동", email: "redroadman@mail.com", joined: true },
-  { id: 4, name: "홍길동", email: "redroadman@mail.com", joined: true },
-];
+import { useState } from "react";
+import axios from "axios";
 
 const StaffManagement = () => {
+  const [userName, setUserName] = useState("");
+  const [email, setEmail] = useState("");
+  const [isAdd, setIsAdd] = useState(false);
+
+  const [staffList, setStaffList] = useState([]);
+
+  const onUserNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setUserName(event.target.value);
+  };
+  const onEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(event.target.value);
+  };
+
+  const handleAddStaff = async () => {
+    if (!email || !userName) {
+    }
+
+    setIsAdd(true);
+
+    try {
+      const response = await axios.post(
+        "https://aspis-auth-api.ncloud.sbs/invite/set",
+        { email }
+      );
+
+      if (response.data && response.data.key) {
+        const newStaff = {
+          id: response.data.key,
+          name: userName,
+          email: email,
+          joined: false,
+        };
+
+        setStaffList((prev) => [...prev, newStaff]);
+        setUserName("");
+        setEmail("");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <StyledSection>
       <Title>스태프</Title>
       <StyledTable>
-        <AddButton>
+        <AddButton onClick={handleAddStaff}>
           <p>추가</p>
           <img src={plus_icon} alt="" />
         </AddButton>
@@ -48,6 +83,25 @@ const StaffManagement = () => {
                 </Td>
               </Tr>
             ))}
+
+            {isAdd && (
+              <Tr>
+                <Td>
+                  <StyledInput
+                    autoFocus
+                    onChange={(e) => onUserNameChange(e)}
+                  />
+                </Td>
+                <Td>
+                  <StyledInput onChange={(e) => onEmailChange(e)} />
+                </Td>
+                <Td></Td>
+                <Td>
+                  <ActionButton>완료</ActionButton>
+                  <ActionButton>취소</ActionButton>
+                </Td>
+              </Tr>
+            )}
           </Tbody>
         </Table>
       </StyledTable>
@@ -55,6 +109,13 @@ const StaffManagement = () => {
   );
 };
 
+const StyledInput = styled.input`
+  width: 60%;
+  height: 32px;
+  border-radius: 5px;
+  border: 1px solid ${theme.color.sub[2]};
+  padding-left: 8px;
+`;
 const Tbody = styled.tbody`
   border: 2px solid ${theme.color.sub[2]};
 `;

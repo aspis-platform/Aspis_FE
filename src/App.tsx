@@ -46,6 +46,7 @@ const StyledDiv = styled.section`
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
+  position: relative;
 `;
 
 export default App;

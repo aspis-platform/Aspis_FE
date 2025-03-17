@@ -1,4 +1,3 @@
-import React from "react";
 import { theme } from "../../style/theme";
 import styled from "styled-components";
 import StatusCard from "../../components/StatusCard";
@@ -55,6 +54,17 @@ const ButtonBox = styled.div`
   justify-content: space-between;
   gap: 40px;
 
+  @media (max-width: 1670px) {
+    width: 360px;
+    height: 400px;
+    padding: 20px 20px;
+    gap: 20px;
+
+    img {
+      width: 40%;
+    }
+  }
+
   @media (max-width: 925px) {
     width: 250px;
     height: 360px;
@@ -109,8 +119,8 @@ const HomeSection = styled.div`
   display: flex;
   justify-content: center;
 
-  @media (max-width: 925px) {
-    padding: 36px 100px;
+  @media (max-width: 1670px) {
+    padding: 120px 200px;
   }
 `;
 
