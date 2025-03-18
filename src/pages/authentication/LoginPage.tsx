@@ -1,10 +1,25 @@
-import React from "react";
 import { theme } from "../../style/theme";
 import styled from "styled-components";
 import yeomiji_logo from "../../assets/yeomiji-logo.svg";
 import InputComponent from "../../components/Input/InputComponent";
+import React, { useState } from "react";
+import { AuthService } from "../../api/authService";
 
 const LoginPage = () => {
+  const [userName, setUserName] = useState("");
+  const [password, setPassword] = useState("");
+
+  const onUserNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setUserName(event.target.value);
+  };
+  const onPasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(event.target.value);
+  };
+
+  const onHandleLogin = async () => {
+    await AuthService.login(userName, password);
+  };
+
   return (
     <LoginSection>
       <LoginContainer>
@@ -24,10 +39,18 @@ const LoginPage = () => {
           <StyledSection>
             <LoginTitle>로그인</LoginTitle>
             <InputSection>
-              <InputComponent label={"아이디"} />
-              <InputComponent label={"비밀번호"} />
+              <InputComponent
+                onHandleChange={(event) => onUserNameChange(event)}
+                type={"text"}
+                label={"이름"}
+              />
+              <InputComponent
+                onHandleChange={(event) => onPasswordChange(event)}
+                type={"password"}
+                label={"비밀번호"}
+              />
             </InputSection>
-            <SubmitButton>로그인</SubmitButton>
+            <SubmitButton onClick={onHandleLogin}>로그인</SubmitButton>
           </StyledSection>
         </LoginCard>
       </LoginContainer>
