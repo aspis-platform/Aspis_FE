@@ -5,13 +5,22 @@ import check from "../../assets/check-icon.svg";
 import cross from "../../assets/cross-icon.svg";
 import { useState } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
+
+interface Type {
+  id: string;
+  name: string;
+  email: string;
+  joined: boolean;
+}
 
 const StaffManagement = () => {
   const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [isAdd, setIsAdd] = useState(false);
 
-  const [staffList, setStaffList] = useState([]);
+  const [staffList, setStaffList] = useState<Type[]>([]);
+  const [loading, setLoading] = useState(false);
 
   const onUserNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setUserName(event.target.value);
@@ -20,12 +29,17 @@ const StaffManagement = () => {
     setEmail(event.target.value);
   };
 
-  const handleAddStaff = async () => {
+  const handleAddStaff = () => {
+    setIsAdd(true);
+  };
+
+  const onSubmit = async () => {
     if (!email || !userName) {
+      toast.error("내용을 입력하세요!");
+      return;
     }
 
-    setIsAdd(true);
-
+    setLoading(true);
     try {
       const response = await axios.post(
         "https://aspis-auth-api.ncloud.sbs/invite/set",
@@ -44,9 +58,20 @@ const StaffManagement = () => {
         setUserName("");
         setEmail("");
       }
+      toast.success("스태프가 성공적으로 등록되었습니다!");
+      setIsAdd(false);
     } catch (error) {
       console.error(error);
+      toast.error("스태프 등록을 실패했습니다.");
+    } finally {
+      setLoading(false);
     }
+  };
+
+  const onCancel = () => {
+    setIsAdd(false);
+    setEmail("");
+    setUserName("");
   };
 
   return (
@@ -90,15 +115,23 @@ const StaffManagement = () => {
                   <StyledInput
                     autoFocus
                     onChange={(e) => onUserNameChange(e)}
+                    placeholder="이름을 입력하세요."
                   />
                 </Td>
                 <Td>
-                  <StyledInput onChange={(e) => onEmailChange(e)} />
+                  <StyledInput
+                    onChange={(e) => onEmailChange(e)}
+                    placeholder="example@email.com"
+                  />
                 </Td>
                 <Td></Td>
                 <Td>
-                  <ActionButton>완료</ActionButton>
-                  <ActionButton>취소</ActionButton>
+                  <ActionButton onClick={onSubmit} disabled={loading}>
+                    {loading ? "등록중.." : "완료"}
+                  </ActionButton>
+                  <ActionButton onClick={onCancel} disabled={loading}>
+                    취소
+                  </ActionButton>
                 </Td>
               </Tr>
             )}
