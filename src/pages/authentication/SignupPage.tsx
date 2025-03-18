@@ -2,8 +2,28 @@ import { theme } from "../../style/theme";
 import styled from "styled-components";
 import aspis_logo from "../../assets/aspis-logo.svg";
 import InputComponent from "../../components/Input/InputComponent";
+import React, { useState } from "react";
+import { AuthService } from "../../api/authService";
 
 const SignupPage = () => {
+  const [userName, setUserName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const onNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setUserName(event.target.value);
+  };
+  const onEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(event.target.value);
+  };
+  const onPasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(event.target.value);
+  };
+
+  const onHandleRegister = async () => {
+    await AuthService.register(userName, password, email);
+  };
+
   return (
     <SignupSection>
       <SignupContainer>
@@ -12,11 +32,29 @@ const SignupPage = () => {
           <p>회원가입</p>
         </Title>
         <InputSection>
-          <InputComponent label="이메일" />
-          <InputComponent label="아이디" />
-          <InputComponent label="비밀번호" />
+          <InputComponent
+            onHandleChange={(event) => {
+              onEmailChange(event);
+            }}
+            type="email"
+            label="이메일"
+          />
+          <InputComponent
+            onHandleChange={(event) => {
+              onNameChange(event);
+            }}
+            type="text"
+            label="이름"
+          />
+          <InputComponent
+            onHandleChange={(event) => {
+              onPasswordChange(event);
+            }}
+            type="password"
+            label="비밀번호"
+          />
         </InputSection>
-        <SubmitButton>회원가입</SubmitButton>
+        <SubmitButton onClick={onHandleRegister}>회원가입</SubmitButton>
       </SignupContainer>
     </SignupSection>
   );
