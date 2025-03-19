@@ -3,13 +3,19 @@ import instances, { login } from "./axios";
 import { toast } from "react-toastify";
 
 export class AuthService {
-  static async login(name: string, password: string) {
+  static async login(
+    user_email: string,
+    user_password: string,
+    onSuccess: () => void
+  ) {
     try {
       const response = await instances["auth"].post<{
         access_token: string;
         refresh_token: string;
-      }>(name, password);
+      }>("/user/login", { user_email, user_password });
       login(response.data.access_token, response.data.refresh_token);
+      toast.success("성공적으로 로그인 되었습니다!");
+      onSuccess();
     } catch (error) {
       if (!(error instanceof AxiosError)) return;
 

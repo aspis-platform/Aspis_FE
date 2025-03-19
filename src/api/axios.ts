@@ -61,10 +61,10 @@ function createInstance(type: ServerType, baseUrl: string) {
   instances[type] = instance;
 }
 
-createInstance("auth", import.meta.env.AUTH_URL);
-createInstance("core", import.meta.env.CORE_URL);
-createInstance("upload", import.meta.env.UPLOAD_URL);
-createInstance("ai", import.meta.env.AI_URL);
+createInstance("auth", import.meta.env.VITE_AUTH_URL);
+createInstance("core", import.meta.env.VITE_CORE_URL);
+createInstance("upload", import.meta.env.VITE_UPLOAD_URL);
+createInstance("ai", import.meta.env.VITE_AI_URL);
 
 export { login, logout };
 export type { ServerType };
