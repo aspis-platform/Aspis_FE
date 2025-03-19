@@ -2,12 +2,6 @@ import { AxiosError } from "axios";
 import instances, { login } from "./axios";
 import { toast } from "react-toastify";
 
-interface data {
-  name: string;
-  password: string;
-  email: string;
-}
-
 export class AuthService {
   static async login(name: string, password: string) {
     try {
@@ -33,11 +27,10 @@ export class AuthService {
     }
   }
 
-  static async register(name: string, password: string, email: string) {
+  static async register(name: string, password: string) {
     const body = {
       name,
       password,
-      email,
     };
 
     try {

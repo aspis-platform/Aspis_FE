@@ -76,7 +76,7 @@ const StaffManagement = () => {
 
   return (
     <StyledSection>
-      <Title>스태프</Title>
+      <Title>스태프 관리</Title>
       <StyledTable>
         <AddButton onClick={handleAddStaff}>
           <p>추가</p>

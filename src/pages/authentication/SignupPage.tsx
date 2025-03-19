@@ -7,21 +7,17 @@ import { AuthService } from "../../api/authService";
 
 const SignupPage = () => {
   const [userName, setUserName] = useState("");
-  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const onNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setUserName(event.target.value);
-  };
-  const onEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(event.target.value);
   };
   const onPasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(event.target.value);
   };
 
   const onHandleRegister = async () => {
-    await AuthService.register(userName, password, email);
+    await AuthService.register(userName, password);
   };
 
   return (
@@ -32,13 +28,6 @@ const SignupPage = () => {
           <p>회원가입</p>
         </Title>
         <InputSection>
-          <InputComponent
-            onHandleChange={(event) => {
-              onEmailChange(event);
-            }}
-            type="email"
-            label="이메일"
-          />
           <InputComponent
             onHandleChange={(event) => {
               onNameChange(event);
@@ -103,7 +92,7 @@ const SignupContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 60px;
+  gap: 80px;
 
   @media (max-width: 925px) {
     width: 440px;
