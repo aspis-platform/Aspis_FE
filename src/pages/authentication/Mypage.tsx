@@ -134,7 +134,7 @@ const FormSection = styled.section`
 const StyledSection = styled.section`
   width: 100vw;
   height: 100vh;
-  background-color: ${theme.color.sub[1]};
+  background-color: white;
 
   display: flex;
   justify-content: center;

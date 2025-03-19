@@ -52,7 +52,7 @@ const SignupPage = () => {
 const InputSection = styled.section`
   display: flex;
   flex-direction: column;
-  gap: 44px;
+  gap: 64px;
   width: 100%;
 
   @media (max-width: 925px) {
@@ -65,11 +65,12 @@ const Title = styled.div`
   align-items: center;
   font-size: 32px;
   font-weight: 700;
-  color: ${theme.color.main[4]};
+  color: ${theme.color.sub[4]};
+  gap: 12px;
 
   img {
-    width: 72px;
-    height: 84px;
+    width: 52px;
+    height: 76px;
   }
 
   @media (max-width: 925px) {
@@ -86,13 +87,13 @@ const SignupContainer = styled.div`
   height: 760px;
   background-color: ${theme.color.white};
   border-radius: 10px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
   padding: 40px 80px;
+  border: 2px solid ${theme.color.sub[4]};
 
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 80px;
+  gap: 100px;
 
   @media (max-width: 925px) {
     width: 440px;
@@ -105,7 +106,7 @@ const SignupContainer = styled.div`
 const SignupSection = styled.section`
   width: 100vw;
   height: 100vh;
-  background-color: ${theme.color.sub[1]};
+  background-color: white;
 
   display: flex;
   justify-content: center;
@@ -138,6 +139,7 @@ const SubmitButton = styled.button`
   font-size: 20px;
   border-radius: 8px;
   cursor: pointer;
+  color: white;
 
   @media (max-width: 925px) {
     height: 48px;

@@ -23,9 +23,8 @@ const CardBox = styled.div`
   width: 180px;
   height: 84px;
   background-color: ${theme.color.white};
-  border: 2px solid ${theme.color.main[3]};
+  border: 2px solid ${theme.color.sub[4]};
   border-radius: 20px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 
   display: flex;
   flex-direction: row;

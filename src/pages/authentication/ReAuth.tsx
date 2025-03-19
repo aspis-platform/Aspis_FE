@@ -11,7 +11,11 @@ const ReAuth = () => {
           <p>민감한 정보에 접근하려 하고 있습니다</p>
         </Title>
         <FormSection>
-          <InputComponent label="비밀번호" />
+          <InputComponent
+            onHandleChange={() => {}}
+            type="password"
+            label="비밀번호"
+          />
           <Button>로그인</Button>
         </FormSection>
       </StyledContainer>
@@ -38,6 +42,7 @@ const Button = styled.button`
   font-size: 20px;
   font-weight: 400;
   cursor: pointer;
+  color: white;
 
   @media (max-width: 925px) {
     width: 380px;
@@ -72,8 +77,8 @@ const StyledContainer = styled.div`
   height: 680px;
   background-color: ${theme.color.white};
   border-radius: 20px;
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
   padding: 100px 0;
+  border: 2px solid ${theme.color.sub[2]};
 
   display: flex;
   flex-direction: column;
@@ -90,7 +95,7 @@ const StyledContainer = styled.div`
 const StyledSection = styled.section`
   width: 100vw;
   height: 100vh;
-  background-color: ${theme.color.sub[1]};
+  background-color: white;
   display: flex;
   justify-content: center;
   align-items: center;

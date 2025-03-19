@@ -1,7 +1,5 @@
-import React from "react";
 import styled from "styled-components";
 import logo from "../../assets/Aspis-logo-small.svg";
-import home_icon_green from "../../assets/home-icon.svg";
 import home_icon_black from "../../assets/home-icon-black.svg";
 import dog_icon from "../../assets/dog-icon.svg";
 import staff_icon from "../../assets/staff-icon.svg";
@@ -107,7 +105,7 @@ const NavButton = styled.div`
   }
 `;
 const Logo = styled.div`
-  color: ${theme.color.main[4]};
+  color: ${theme.color.sub[4]};
   font-size: 36px;
   font-weight: 300;
 
@@ -136,8 +134,8 @@ const NavSection = styled.section`
   height: 100vh;
   padding: 48px 0 80px 60px;
   background-color: ${theme.color.white};
-  box-shadow: 5px 0 10px rgba(0, 0, 0, 0.1);
   z-index: 10;
+  border-right: 2px solid ${theme.color.sub[2]};
 
   display: flex;
   flex-direction: column;

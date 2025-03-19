@@ -218,13 +218,13 @@ const StyledTable = styled.div`
 const Title = styled.h1`
   font-size: 32px;
   font-weight: 600;
-  color: ${theme.color.main[4]};
+  color: black;
 `;
 const StyledSection = styled.section`
   width: 100%;
   height: 100%;
 
-  background-color: ${theme.color.sub[1]};
+  background-color: white;
   padding: 80px 8%;
 `;
 

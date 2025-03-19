@@ -40,13 +40,13 @@ const ButtonBox = styled.div`
   width: 400px;
   height: 500px;
   background-color: white;
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
   border: none;
   border-radius: 10px;
   padding: 20px 40px;
   font-size: 16px;
   font-weight: 600;
   color: black;
+  border: 2px solid ${theme.color.sub[2]};
 
   display: flex;
   flex-direction: column;
@@ -113,7 +113,7 @@ const HomeContainer = styled.div`
 const HomeSection = styled.div`
   width: 100%;
   height: 100%;
-  background-color: ${theme.color.sub[1]};
+  background-color: white;
   padding: 84px 265px;
 
   display: flex;
