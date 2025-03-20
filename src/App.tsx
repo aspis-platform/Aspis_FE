@@ -11,6 +11,7 @@ import StaffManagement from "./pages/management/StaffManagement";
 import DogManagement from "./pages/management/DogManagement";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import StaffInvite from "./pages/management/StaffInvite";
 
 function Layout() {
   return (
@@ -48,6 +49,7 @@ function App() {
           <Route path="/mypage" element={<Mypage />} />
           <Route path="/staff-manage" element={<StaffManagement />} />
           <Route path="/dog-manage" element={<DogManagement />} />
+          <Route path="/staff-invite" element={<StaffInvite />} />
         </Route>
 
         {/* 사이드 네비게이션 없는 페이지들 */}
