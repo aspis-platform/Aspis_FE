@@ -1,87 +1,18 @@
 import { theme } from "../../style/theme";
 import styled from "styled-components";
-import plus_icon from "../../assets/plus-icon.svg";
 import check from "../../assets/check-icon.svg";
 import cross from "../../assets/cross-icon.svg";
-import { useState } from "react";
-import axios from "axios";
-import { toast } from "react-toastify";
-
-interface Type {
-  id: string;
-  name: string;
-  email: string;
-  joined: boolean;
-}
 
 const StaffManagement = () => {
-  const [userName, setUserName] = useState("");
-  const [email, setEmail] = useState("");
-  const [isAdd, setIsAdd] = useState(false);
-
-  const [staffList, setStaffList] = useState<Type[]>([]);
-  const [loading, setLoading] = useState(false);
-
-  const onUserNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setUserName(event.target.value);
-  };
-  const onEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(event.target.value);
-  };
-
-  const handleAddStaff = () => {
-    setIsAdd(true);
-  };
-
-  const onSubmit = async () => {
-    if (!email || !userName) {
-      toast.error("내용을 입력하세요!");
-      return;
-    }
-
-    setLoading(true);
-    try {
-      const response = await axios.post(
-        "https://aspis-auth-api.ncloud.sbs/invite/set",
-        { email }
-      );
-
-      if (response.data && response.data.key) {
-        const newStaff = {
-          id: response.data.key,
-          name: userName,
-          email: email,
-          joined: false,
-        };
-
-        setStaffList((prev) => [...prev, newStaff]);
-        setUserName("");
-        setEmail("");
-      }
-      toast.success("스태프가 성공적으로 등록되었습니다!");
-      setIsAdd(false);
-    } catch (error) {
-      console.error(error);
-      toast.error("스태프 등록을 실패했습니다.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const onCancel = () => {
-    setIsAdd(false);
-    setEmail("");
-    setUserName("");
-  };
+  const staffList = [
+    { id: 1, name: "홍길동", email: "example@email.com", joined: false },
+    { id: 2, name: "john", email: "hello@email.com", joined: true },
+  ];
 
   return (
     <StyledSection>
       <Title>스태프 관리</Title>
       <StyledTable>
-        <AddButton onClick={handleAddStaff}>
-          <p>추가</p>
-          <img src={plus_icon} alt="" />
-        </AddButton>
         <Table>
           <Thead>
             <tr>
@@ -103,38 +34,10 @@ const StaffManagement = () => {
                   )}
                 </Td>
                 <Td>
-                  <ActionButton>수정</ActionButton>
                   <ActionButton>삭제</ActionButton>
                 </Td>
               </Tr>
             ))}
-
-            {isAdd && (
-              <Tr>
-                <Td>
-                  <StyledInput
-                    autoFocus
-                    onChange={(e) => onUserNameChange(e)}
-                    placeholder="이름을 입력하세요."
-                  />
-                </Td>
-                <Td>
-                  <StyledInput
-                    onChange={(e) => onEmailChange(e)}
-                    placeholder="example@email.com"
-                  />
-                </Td>
-                <Td></Td>
-                <Td>
-                  <ActionButton onClick={onSubmit} disabled={loading}>
-                    {loading ? "등록중.." : "완료"}
-                  </ActionButton>
-                  <ActionButton onClick={onCancel} disabled={loading}>
-                    취소
-                  </ActionButton>
-                </Td>
-              </Tr>
-            )}
           </Tbody>
         </Table>
       </StyledTable>
@@ -142,13 +45,6 @@ const StaffManagement = () => {
   );
 };
 
-const StyledInput = styled.input`
-  width: 60%;
-  height: 32px;
-  border-radius: 5px;
-  border: 1px solid ${theme.color.sub[2]};
-  padding-left: 8px;
-`;
 const Tbody = styled.tbody`
   border: 2px solid ${theme.color.sub[2]};
 `;
@@ -193,21 +89,6 @@ const Table = styled.table`
   background-color: ${theme.color.white};
   border-collapse: collapse;
 `;
-const AddButton = styled.button`
-  width: 76px;
-  height: 36px;
-  background-color: ${theme.color.white};
-  border: 2px solid ${theme.color.sub[2]};
-  border-radius: 10px;
-  font-size: 16px;
-  font-weight: 600;
-
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-  align-items: center;
-  cursor: pointer;
-`;
 const StyledTable = styled.div`
   width: 100%;
   display: flex;
@@ -223,6 +104,10 @@ const Title = styled.h1`
 const StyledSection = styled.section`
   width: 100%;
   height: 100%;
+
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
 
   background-color: white;
   padding: 80px 8%;

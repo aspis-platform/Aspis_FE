@@ -4,6 +4,7 @@ import home_icon_black from "../../assets/home-icon-black.svg";
 import dog_icon from "../../assets/dog-icon.svg";
 import staff_icon from "../../assets/staff-icon.svg";
 import mypage_icon from "../../assets/mypage-icon.svg";
+import envelope from "../../assets/envelope-img.svg";
 import { theme } from "../../style/theme";
 import { Link } from "react-router-dom";
 
@@ -37,6 +38,13 @@ const SideNav = () => {
             <NavButton>
               <img src={staff_icon} alt="" />
               <p>스태프 관리</p>
+            </NavButton>
+          </Link>
+
+          <Link to={"/staff-invite"} style={{ textDecoration: "none" }}>
+            <NavButton>
+              <img src={envelope} alt="" />
+              <p>스태프 초대</p>
             </NavButton>
           </Link>
         </ButtonSection>
