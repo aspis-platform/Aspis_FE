@@ -1,59 +1,75 @@
 import { theme } from "../../style/theme";
 import styled from "styled-components";
-import check from "../../assets/check-icon.svg";
-import cross from "../../assets/cross-icon.svg";
 import plus from "../../assets/plus-icon.svg";
+import { useEffect, useState } from "react";
+import { AuthService } from "../../api/authService";
+import StaffInviteModal from "../../components/StaffInviteModal";
 
 const StaffInvite = () => {
-  const staffList = [
-    { id: 1, email: "example@email.com", joined: false },
-    { id: 2, email: "hello@email.com", joined: true },
-  ];
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  type Staff = { email: string };
+  const [staffList, setStaffList] = useState<Staff[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await AuthService.getInviteList();
+      setStaffList(response);
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <StyledSection>
       <TopSection>
-        <TitleSection>
-          <Title>스태프 초대</Title>
-          <Sup>
-            가입 대기중인 스태프 {2}명, 초대된 스태프 {2}명
-          </Sup>
-        </TitleSection>
-        <AddButton>
+        <Title>스태프 초대</Title>
+        <AddButton
+          onClick={() => {
+            setIsModalOpen(true);
+          }}
+        >
           <img src={plus} />
-          스태프 추가
+          스태프 초대
         </AddButton>
       </TopSection>
 
-      <StyledTable>
-        <Table>
-          <Thead>
-            <tr>
-              <Th>이메일</Th>
-              <Th>가입 여부</Th>
-            </tr>
-          </Thead>
-          <Tbody>
-            {staffList.map((staff) => (
-              <Tr key={staff.id}>
-                <Td>{staff.email}</Td>
-                <Td>
-                  {staff.joined ? (
-                    <img src={check} alt="" />
-                  ) : (
-                    <img src={cross} alt="" />
-                  )}
-                </Td>
-                <Td></Td>
-              </Tr>
-            ))}
-          </Tbody>
-        </Table>
-      </StyledTable>
+      <Table>
+        <Thead>
+          <tr>
+            <Th>이메일</Th>
+          </tr>
+        </Thead>
+        <Tbody>
+          {staffList.map((staff, index) => (
+            <Tr key={index}>
+              <Td>{staff.email}</Td>
+              <Td>
+                <ActionButton>삭제</ActionButton>
+              </Td>
+            </Tr>
+          ))}
+        </Tbody>
+      </Table>
+      {isModalOpen && (
+        <StaffInviteModal
+          onClose={() => {
+            setIsModalOpen(false);
+          }}
+        />
+      )}
     </StyledSection>
   );
 };
 
+const ActionButton = styled.button`
+  width: 52px;
+  height: 32px;
+  background-color: ${theme.color.white};
+  border: 2px solid ${theme.color.sub[2]};
+  border-radius: 10px;
+  cursor: pointer;
+`;
 const Tbody = styled.tbody`
   border: 2px solid ${theme.color.sub[2]};
 `;
@@ -62,6 +78,7 @@ const Thead = styled.thead`
 `;
 const Td = styled.td`
   padding: 12px;
+  text-align: left;
 
   &:last-child {
     display: flex;
@@ -77,25 +94,12 @@ const Th = styled.th`
   padding: 12px;
   font-weight: 500;
   text-align: left;
-
-  &:first-child {
-    border-top-left-radius: 20px;
-  }
-  &:last-child {
-    border-top-right-radius: 20px;
-  }
 `;
 const Table = styled.table`
   width: 100%;
   background-color: ${theme.color.white};
   border-collapse: collapse;
-`;
-const StyledTable = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 14px;
+  table-layout: fixed;
 `;
 const Title = styled.h1`
   font-size: 32px;
@@ -114,20 +118,11 @@ const StyledSection = styled.section`
   padding: 80px 8%;
 `;
 
-const TitleSection = styled.section`
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-`;
-const Sup = styled.div`
-  font-size: 20px;
-  font-weight: 400;
-`;
 const TopSection = styled.section`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  align-items: flex-end;
+  align-items: flex-start;
 `;
 const AddButton = styled.button`
   width: 172px;

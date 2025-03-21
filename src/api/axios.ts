@@ -26,7 +26,7 @@ function createInstance(type: ServerType, baseUrl: string) {
   });
 
   instance.interceptors.request.use((config) => {
-    config.headers.Authorization = cookies.get("accessToken");
+    config.headers.Authorization = "Bearer " + cookies.get("accessToken");
     return config;
   });
 
@@ -47,7 +47,7 @@ function createInstance(type: ServerType, baseUrl: string) {
             login(response.data.accessToken, undefined);
           } catch (error) {
             toast.error("다시 로그인하세요.");
-            useNavigate()("/login");
+            location.href = "/login";
           }
         }
       } else if (error.status === 500) {

@@ -1,13 +1,25 @@
+import { useEffect, useState } from "react";
 import { theme } from "../../style/theme";
 import styled from "styled-components";
-import check from "../../assets/check-icon.svg";
-import cross from "../../assets/cross-icon.svg";
+import { AuthService } from "../../api/authService";
 
 const StaffManagement = () => {
-  const staffList = [
-    { id: 1, name: "홍길동", email: "example@email.com", joined: false },
-    { id: 2, name: "john", email: "hello@email.com", joined: true },
-  ];
+  type Staff = {
+    id: string;
+    user_name: string;
+    user_email: string;
+    user_authority: string;
+  };
+  const [staffList, setStaffList] = useState<Staff[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await AuthService.getStaffList();
+      setStaffList(response);
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <StyledSection>
@@ -18,21 +30,13 @@ const StaffManagement = () => {
             <tr>
               <Th>이름</Th>
               <Th>이메일</Th>
-              <Th>가입 여부</Th>
             </tr>
           </Thead>
           <Tbody>
             {staffList.map((staff) => (
               <Tr key={staff.id}>
-                <Td>{staff.name}</Td>
-                <Td>{staff.email}</Td>
-                <Td>
-                  {staff.joined ? (
-                    <img src={check} alt="" />
-                  ) : (
-                    <img src={cross} alt="" />
-                  )}
-                </Td>
+                <Td>{staff.user_name}</Td>
+                <Td>{staff.user_email}</Td>
                 <Td>
                   <ActionButton>삭제</ActionButton>
                 </Td>
@@ -76,13 +80,6 @@ const Th = styled.th`
   padding: 12px;
   font-weight: 500;
   text-align: left;
-
-  &:first-child {
-    border-top-left-radius: 20px;
-  }
-  &:last-child {
-    border-top-right-radius: 20px;
-  }
 `;
 const Table = styled.table`
   width: 100%;

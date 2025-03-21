@@ -60,4 +60,33 @@ export class AuthService {
       return false;
     }
   }
+
+  static async getStaffList() {
+    try {
+      const response = await instances["auth"].get("/user");
+      return response.data;
+    } catch (error) {
+      toast.error("스태프를 불러오는데 실패했습니다.");
+      return [];
+    }
+  }
+
+  static async getInviteList() {
+    try {
+      const response = await instances["auth"].get("/invite/list");
+      return response.data;
+    } catch (error) {
+      toast.error("명단을 불러오는데 실패했습니다.");
+      return [];
+    }
+  }
+
+  static async sendInvitation(email: string) {
+    try {
+      const response = await instances["auth"].post("/invite/set", { email });
+      return response.data;
+    } catch (error) {
+      toast.error("초대를 보내는데 문제가 발생했습니다.");
+    }
+  }
 }
