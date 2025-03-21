@@ -142,7 +142,7 @@ const NavSection = styled.section`
   height: 100vh;
   padding: 48px 0 80px 60px;
   background-color: ${theme.color.white};
-  z-index: 10;
+  z-index: 5;
   border-right: 2px solid ${theme.color.sub[2]};
 
   display: flex;
