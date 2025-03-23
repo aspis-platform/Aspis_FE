@@ -74,6 +74,8 @@ export class AuthService {
   static async getInviteList() {
     try {
       const response = await instances["auth"].get("/invite/list");
+      console.log(response);
+
       return response.data;
     } catch (error) {
       toast.error("명단을 불러오는데 실패했습니다.");
@@ -87,6 +89,15 @@ export class AuthService {
       return response.data;
     } catch (error) {
       toast.error("초대를 보내는데 문제가 발생했습니다.");
+    }
+  }
+
+  static async deleteInvite(key: string) {
+    try {
+      await instances["auth"].delete(`/invite/delete/${key}`);
+      toast.success("성공적으로 초대를 삭제했습니다!");
+    } catch (error) {
+      toast.error("초대를 삭제하는데 문제가 발생했습니다.");
     }
   }
 }

@@ -4,21 +4,41 @@ import plus from "../../assets/plus-icon.svg";
 import { useEffect, useState } from "react";
 import { AuthService } from "../../api/authService";
 import StaffInviteModal from "../../components/StaffInviteModal";
+import Swal from "sweetalert2";
 
 const StaffInvite = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  type Staff = { email: string };
+  type Staff = { id: string; email: string };
   const [staffList, setStaffList] = useState<Staff[]>([]);
+  console.log(staffList);
 
   useEffect(() => {
     const fetchData = async () => {
       const response = await AuthService.getInviteList();
+      console.log(response);
       setStaffList(response);
     };
 
     fetchData();
   }, []);
+
+  const onDeleteInvite = (key: string) => {
+    Swal.fire({
+      title: "초대를 삭제하시겠습니까?",
+      text: "초대를 삭제하면 복구할 수 없습니다.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#df3232",
+      cancelButtonColor: "#40b6ed",
+      confirmButtonText: "삭제",
+      cancelButtonText: "취소",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        await AuthService.deleteInvite(key);
+      }
+    });
+  };
 
   return (
     <StyledSection>
@@ -41,11 +61,13 @@ const StaffInvite = () => {
           </tr>
         </Thead>
         <Tbody>
-          {staffList.map((staff, index) => (
-            <Tr key={index}>
+          {staffList.map((staff) => (
+            <Tr key={staff.id}>
               <Td>{staff.email}</Td>
               <Td>
-                <ActionButton>삭제</ActionButton>
+                <ActionButton onClick={() => onDeleteInvite(staff.id)}>
+                  삭제
+                </ActionButton>
               </Td>
             </Tr>
           ))}

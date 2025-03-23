@@ -1,6 +1,5 @@
 import axios, { AxiosError, AxiosInstance } from "axios";
 import { Cookies } from "react-cookie";
-import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 type ServerType = "auth" | "core" | "upload" | "ai";
