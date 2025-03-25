@@ -4,8 +4,14 @@ import aspis_logo from "../../assets/aspis-logo.svg";
 import InputComponent from "../../components/Input/InputComponent";
 import React, { useState } from "react";
 import { AuthService } from "../../api/authService";
+import { useLocation } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const SignupPage = () => {
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const key = queryParams.get("key") ?? "";
+
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
 
@@ -17,7 +23,11 @@ const SignupPage = () => {
   };
 
   const onHandleRegister = async () => {
-    await AuthService.register(userName, password);
+    if (!userName || !password) {
+      toast.error("이름과 비밀번호를 모두 작성하세요.");
+    }
+
+    await AuthService.register(userName, password, key);
   };
 
   return (
