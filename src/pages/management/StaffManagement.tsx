@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { theme } from "../../style/theme";
 import styled from "styled-components";
 import { AuthService } from "../../api/authService";
+import Swal from "sweetalert2";
 
 const StaffManagement = () => {
   type Staff = {
@@ -19,7 +20,24 @@ const StaffManagement = () => {
     };
 
     fetchData();
-  }, []);
+  }, [staffList]);
+
+  const onDeleteStaff = (id: string) => {
+    Swal.fire({
+      title: "스태프를 삭제하시겠습니까?",
+      text: "스태프를 삭제하면 복구할 수 없습니다.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#df3232",
+      cancelButtonColor: "#40b6ed",
+      confirmButtonText: "삭제",
+      cancelButtonText: "취소",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        await AuthService.deleteStaff(id);
+      }
+    });
+  };
 
   return (
     <StyledSection>
@@ -38,7 +56,9 @@ const StaffManagement = () => {
                 <Td>{staff.user_name}</Td>
                 <Td>{staff.user_email}</Td>
                 <Td>
-                  <ActionButton>삭제</ActionButton>
+                  <ActionButton onClick={() => onDeleteStaff(staff.id)}>
+                    삭제
+                  </ActionButton>
                 </Td>
               </Tr>
             ))}
