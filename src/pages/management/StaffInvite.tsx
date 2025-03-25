@@ -11,17 +11,15 @@ const StaffInvite = () => {
 
   type Staff = { id: string; email: string };
   const [staffList, setStaffList] = useState<Staff[]>([]);
-  console.log(staffList);
 
   useEffect(() => {
     const fetchData = async () => {
       const response = await AuthService.getInviteList();
-      console.log(response);
       setStaffList(response);
     };
 
     fetchData();
-  }, []);
+  }, [staffList]);
 
   const onDeleteInvite = (key: string) => {
     Swal.fire({
