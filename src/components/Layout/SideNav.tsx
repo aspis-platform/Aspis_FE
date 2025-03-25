@@ -7,8 +7,12 @@ import mypage_icon from "../../assets/mypage-icon.svg";
 import envelope from "../../assets/envelope-img.svg";
 import { theme } from "../../style/theme";
 import { Link } from "react-router-dom";
+import { useUser } from "../../context/UserContext";
 
 const SideNav = () => {
+  const { user } = useUser();
+  const isManager = user.authority === "MANAGER";
+
   return (
     <NavSection>
       <StyledDiv>
@@ -34,26 +38,32 @@ const SideNav = () => {
             </NavButton>
           </Link>
 
-          <Link to={"/staff-manage"} style={{ textDecoration: "none" }}>
-            <NavButton>
-              <img src={staff_icon} alt="" />
-              <p>스태프 관리</p>
-            </NavButton>
-          </Link>
+          {isManager && (
+            <>
+              <Link to={"/staff-manage"} style={{ textDecoration: "none" }}>
+                <NavButton>
+                  <img src={staff_icon} alt="" />
+                  <p>스태프 관리</p>
+                </NavButton>
+              </Link>
 
-          <Link to={"/staff-invite"} style={{ textDecoration: "none" }}>
-            <NavButton>
-              <img src={envelope} alt="" />
-              <p>스태프 초대</p>
-            </NavButton>
-          </Link>
+              <Link to={"/staff-invite"} style={{ textDecoration: "none" }}>
+                <NavButton>
+                  <img src={envelope} alt="" />
+                  <p>스태프 초대</p>
+                </NavButton>
+              </Link>
+            </>
+          )}
         </ButtonSection>
       </StyledDiv>
 
-      <MypageButton>
-        <img src={mypage_icon} alt="" />
-        <p>마이페이지</p>
-      </MypageButton>
+      <Link to={"/re-auth"} style={{ textDecoration: "none" }}>
+        <MypageButton>
+          <img src={mypage_icon} alt="" />
+          <p>마이페이지</p>
+        </MypageButton>
+      </Link>
     </NavSection>
   );
 };
@@ -74,6 +84,7 @@ const MypageButton = styled.div`
   font-size: 24px;
   font-weight: 600;
   align-items: center;
+  color: black;
 
   @media (max-width: 925px) {
     font-size: 18px;

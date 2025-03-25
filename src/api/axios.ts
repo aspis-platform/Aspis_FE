@@ -46,7 +46,7 @@ function createInstance(type: ServerType, baseUrl: string) {
             login(response.data.accessToken, undefined);
           } catch (error) {
             toast.error("다시 로그인하세요.");
-            location.href = "/login";
+            location.href = "/";
           }
         }
       } else if (error.status === 500) {

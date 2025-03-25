@@ -1,21 +1,28 @@
 import { AxiosError } from "axios";
 import instances, { login } from "./axios";
 import { toast } from "react-toastify";
+import { User, Authority } from "../context/UserContext";
 
 export class AuthService {
   static async login(
     user_email: string,
     user_password: string,
-    onSuccess: () => void
+    onSuccess: (userData: User) => void
   ) {
     try {
       const response = await instances["auth"].post<{
         access_token: string;
         refresh_token: string;
+        user_authority: Authority;
       }>("/user/login", { user_email, user_password });
+
       login(response.data.access_token, response.data.refresh_token);
+
+      onSuccess({
+        authority: response.data.user_authority,
+      });
+
       toast.success("성공적으로 로그인 되었습니다!");
-      onSuccess();
     } catch (error) {
       if (!(error instanceof AxiosError)) return;
 
@@ -33,15 +40,17 @@ export class AuthService {
     }
   }
 
-  static async register(name: string, password: string) {
+  static async register(name: string, password: string, key: string) {
     const body = {
-      name,
-      password,
+      user_name: name,
+      key: key,
+      user_password: password,
     };
+    console.log(body);
 
     try {
-      await instances["auth"].post("/auth/register", body);
-      toast.success("회원가입이 완료되었습니다. 로그인해주세요.");
+      await instances["auth"].post("/user/register", body);
+      toast.success("회원가입이 완료되었습니다.\n로그인해주세요.");
       return true;
     } catch (error) {
       if (!(error instanceof AxiosError)) return false;
@@ -74,7 +83,6 @@ export class AuthService {
   static async getInviteList() {
     try {
       const response = await instances["auth"].get("/invite/list");
-      console.log(response);
 
       return response.data;
     } catch (error) {
@@ -98,6 +106,15 @@ export class AuthService {
       toast.success("성공적으로 초대를 삭제했습니다!");
     } catch (error) {
       toast.error("초대를 삭제하는데 문제가 발생했습니다.");
+    }
+  }
+
+  static async deleteStaff(user_id: string) {
+    try {
+      await instances["auth"].delete(`/user/delete`, { data: { user_id } });
+      toast.success("성공적으로 스태프를 삭제했습니다!");
+    } catch (error) {
+      toast.error("스태프를 삭제하는데 문제가 발생했습니다.");
     }
   }
 }

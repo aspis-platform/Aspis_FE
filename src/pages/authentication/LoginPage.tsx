@@ -5,11 +5,15 @@ import InputComponent from "../../components/Input/InputComponent";
 import React, { useState } from "react";
 import { AuthService } from "../../api/authService";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { useUser } from "../../context/UserContext";
 
 const LoginPage = () => {
+  const navigate = useNavigate();
+  const { login } = useUser();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate();
 
   const onEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
@@ -19,8 +23,16 @@ const LoginPage = () => {
   };
 
   const onHandleLogin = async () => {
-    await AuthService.login(email, password, () => {
-      navigate("/");
+    if (!email || !password) {
+      toast.warning("이메일과 비밀번호를 모두 입력해주세요.");
+      return;
+    }
+
+    await AuthService.login(email, password, (userData) => {
+      login(userData);
+      console.log(userData);
+
+      navigate("/home");
     });
   };
 

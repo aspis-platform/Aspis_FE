@@ -12,6 +12,7 @@ import DogManagement from "./pages/management/DogManagement";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import StaffInvite from "./pages/management/StaffInvite";
+import { UserProvider } from "./context/UserContext";
 
 function Layout() {
   return (
@@ -41,23 +42,25 @@ function ToastLayout() {
 
 function App() {
   return (
-    <Routes>
-      <Route path="/" element={<ToastLayout />}>
-        {/* 사이드 네비게이션 있는 페이지들 */}
-        <Route path="/" element={<Layout />}>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/mypage" element={<Mypage />} />
-          <Route path="/staff-manage" element={<StaffManagement />} />
-          <Route path="/dog-manage" element={<DogManagement />} />
-          <Route path="/staff-invite" element={<StaffInvite />} />
-        </Route>
+    <UserProvider>
+      <Routes>
+        <Route element={<ToastLayout />}>
+          {/* 사이드 네비게이션 있는 페이지들 */}
+          <Route element={<Layout />}>
+            <Route path="/home" element={<HomePage />} />
+            <Route path="/mypage" element={<Mypage />} />
+            <Route path="/staff-manage" element={<StaffManagement />} />
+            <Route path="/dog-manage" element={<DogManagement />} />
+            <Route path="/staff-invite" element={<StaffInvite />} />
+          </Route>
 
-        {/* 사이드 네비게이션 없는 페이지들 */}
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/signup" element={<SignupPage />} />
-        <Route path="/re-auth" element={<ReAuth />} />
-      </Route>
-    </Routes>
+          {/* 사이드 네비게이션 없는 페이지들 */}
+          <Route path="/" element={<LoginPage />} />
+          <Route path="/join" element={<SignupPage />} />
+          <Route path="/re-auth" element={<ReAuth />} />
+        </Route>
+      </Routes>
+    </UserProvider>
   );
 }
 
