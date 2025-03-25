@@ -14,7 +14,6 @@ const Mypage = () => {
           </Email>
 
           <NameSection>
-            <MypageInput label="성" type="text" />
             <MypageInput label="이름" type="text" />
           </NameSection>
 
