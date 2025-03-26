@@ -4,10 +4,11 @@ import aspis_logo from "../../assets/aspis-logo.svg";
 import InputComponent from "../../components/Input/InputComponent";
 import React, { useState } from "react";
 import { AuthService } from "../../api/authService";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const SignupPage = () => {
+  const navigate = useNavigate();
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const key = queryParams.get("key") ?? "";
@@ -28,6 +29,7 @@ const SignupPage = () => {
     }
 
     await AuthService.register(userName, password, key);
+    navigate("/");
   };
 
   return (
