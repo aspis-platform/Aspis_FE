@@ -63,7 +63,7 @@ export class AuthService {
           toast.error("가입할 수 없습니다");
           break;
         default:
-          toast.error("회원가입 중 오류가 발생했습니다.");
+          toast.error("만료된 링크입니다.");
           break;
       }
       return false;
