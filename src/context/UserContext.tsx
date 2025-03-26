@@ -1,13 +1,11 @@
 import { createContext, useContext, useState, ReactNode } from "react";
 
-export type Authority = "MANAGER" | "STAFF" | null;
-
 export type User = {
-  authority: Authority;
+  authority: string | null;
 };
 
 const defaultUser: User = {
-  authority: null,
+  authority: localStorage.getItem("user_authority"),
 };
 
 interface UserContextType {
@@ -23,9 +21,11 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
 
   const login = (userData: User) => {
     setUser(userData);
+    localStorage.setItem("user_authority", userData.authority || "");
   };
   const logout = () => {
     setUser(defaultUser);
+    localStorage.removeItem("user_authority");
   };
 
   return (
