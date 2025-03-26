@@ -1,7 +1,7 @@
 import { theme } from "../../style/theme";
 import styled from "styled-components";
 import plus from "../../assets/plus-icon.svg";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { AuthService } from "../../api/authService";
 import StaffInviteModal from "../../components/StaffInviteModal";
 import Swal from "sweetalert2";
@@ -17,9 +17,8 @@ const StaffInvite = () => {
       const response = await AuthService.getInviteList();
       setStaffList(response);
     };
-
     fetchData();
-  }, [staffList]);
+  }, []);
 
   const onDeleteInvite = (key: string) => {
     Swal.fire({

@@ -18,9 +18,8 @@ const StaffManagement = () => {
       const response = await AuthService.getStaffList();
       setStaffList(response);
     };
-
     fetchData();
-  }, [staffList]);
+  }, []);
 
   const onDeleteStaff = (id: string) => {
     Swal.fire({
