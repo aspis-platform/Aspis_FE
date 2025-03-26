@@ -4,8 +4,12 @@ import StatusCard from "../../components/StatusCard";
 import dog_img_big from "../../assets/dog-image-big.svg";
 import staff_img from "../../assets/staff-img.svg";
 import { Link } from "react-router-dom";
+import { useUser } from "../../context/UserContext";
 
 const HomePage = () => {
+  const { user } = useUser();
+  const isManager = user.authority === "MANAGER";
+
   return (
     <HomeSection>
       <HomeContainer>
@@ -16,7 +20,7 @@ const HomePage = () => {
           <StatusCard name="보호중인 애견 수" number={4} unit="마리" />
           <StatusCard name="보호중인 애견 수" number={4} unit="마리" />
         </CardContainer>
-        <ButtonContainer>
+        <ButtonContainer isManager={isManager}>
           <Link to={"/dog-manage"} style={{ textDecoration: "none" }}>
             <ButtonBox>
               <p>애견 관리 페이지 바로가기</p>
@@ -24,12 +28,16 @@ const HomePage = () => {
             </ButtonBox>
           </Link>
 
-          <Link to={"/staff-manage"} style={{ textDecoration: "none" }}>
-            <ButtonBox>
-              <p>스태프 관리 페이지 바로가기</p>
-              <img src={staff_img} />
-            </ButtonBox>
-          </Link>
+          {isManager && (
+            <>
+              <Link to={"/staff-manage"} style={{ textDecoration: "none" }}>
+                <ButtonBox>
+                  <p>스태프 관리 페이지 바로가기</p>
+                  <img src={staff_img} />
+                </ButtonBox>
+              </Link>
+            </>
+          )}
         </ButtonContainer>
       </HomeContainer>
     </HomeSection>
@@ -76,11 +84,12 @@ const ButtonBox = styled.div`
     }
   }
 `;
-const ButtonContainer = styled.div`
+const ButtonContainer = styled.div<{ isManager: boolean }>`
   width: 100%;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: ${({ isManager }) =>
+    isManager ? "space-between" : "center"};
 `;
 const CardContainer = styled.div`
   width: 100%;
