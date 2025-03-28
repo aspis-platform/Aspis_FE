@@ -1,7 +1,7 @@
 import { AxiosError } from "axios";
 import instances, { login } from "./axios";
 import { toast } from "react-toastify";
-import { User, Authority } from "../context/UserContext";
+import { Authority, User } from "../context/UserContext";
 
 export class AuthService {
   static async login(
@@ -115,6 +115,16 @@ export class AuthService {
       toast.success("성공적으로 스태프를 삭제했습니다!");
     } catch (error) {
       toast.error("스태프를 삭제하는데 문제가 발생했습니다.");
+    }
+  }
+
+  static async getMyInfo() {
+    try {
+      const response = await instances["auth"].get(`/auth/me`);
+      return response.data;
+    } catch (error) {
+      toast.error("정보를 불러오는데 문제가 발생했습니다.");
+      return false;
     }
   }
 }
