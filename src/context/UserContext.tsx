@@ -1,11 +1,13 @@
 import { createContext, useContext, useState, ReactNode } from "react";
 
+export type Authority = "MANAGER" | "STAFF" | null;
+
 export type User = {
-  authority: string | null;
+  authority: Authority;
 };
 
 const defaultUser: User = {
-  authority: localStorage.getItem("user_authority"),
+  authority: localStorage.getItem("user_authority") as Authority,
 };
 
 interface UserContextType {
