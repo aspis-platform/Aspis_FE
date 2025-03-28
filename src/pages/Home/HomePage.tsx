@@ -8,7 +8,7 @@ import { useUser } from "../../context/UserContext";
 
 const HomePage = () => {
   const { user } = useUser();
-  const isManager = user.authority === "MANAGER";
+  const ismanager: boolean = user.authority === "MANAGER";
 
   return (
     <HomeSection>
@@ -20,7 +20,7 @@ const HomePage = () => {
           <StatusCard name="보호중인 애견 수" number={4} unit="마리" />
           <StatusCard name="보호중인 애견 수" number={4} unit="마리" />
         </CardContainer>
-        <ButtonContainer isManager={isManager}>
+        <ButtonContainer ismanager={ismanager}>
           <Link to={"/dog-manage"} style={{ textDecoration: "none" }}>
             <ButtonBox>
               <p>애견 관리 페이지 바로가기</p>
@@ -28,7 +28,7 @@ const HomePage = () => {
             </ButtonBox>
           </Link>
 
-          {isManager && (
+          {ismanager && (
             <>
               <Link to={"/staff-manage"} style={{ textDecoration: "none" }}>
                 <ButtonBox>
@@ -84,12 +84,12 @@ const ButtonBox = styled.div`
     }
   }
 `;
-const ButtonContainer = styled.div<{ isManager: boolean }>`
+const ButtonContainer = styled.div<{ ismanager: boolean }>`
   width: 100%;
   display: flex;
   flex-direction: row;
-  justify-content: ${({ isManager }) =>
-    isManager ? "space-between" : "center"};
+  justify-content: ${({ ismanager }) =>
+    ismanager ? "space-between" : "center"};
 `;
 const CardContainer = styled.div`
   width: 100%;
