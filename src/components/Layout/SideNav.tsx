@@ -24,7 +24,7 @@ const SideNav = () => {
         </Link>
 
         <ButtonSection>
-          <Link to={"/home"} style={{ textDecoration: "none" }}>
+          <Link to={"/"} style={{ textDecoration: "none" }}>
             <NavButton>
               <img src={home_icon_black} alt="" />
               <p>HOME</p>

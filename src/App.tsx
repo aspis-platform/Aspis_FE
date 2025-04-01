@@ -47,7 +47,7 @@ function App() {
         <Route element={<ToastLayout />}>
           {/* 사이드 네비게이션 있는 페이지들 */}
           <Route element={<Layout />}>
-            <Route path="/home" element={<HomePage />} />
+            <Route path="/" element={<HomePage />} />
             <Route path="/mypage" element={<Mypage />} />
             <Route path="/staff-manage" element={<StaffManagement />} />
             <Route path="/dog-manage" element={<DogManagement />} />
@@ -55,7 +55,7 @@ function App() {
           </Route>
 
           {/* 사이드 네비게이션 없는 페이지들 */}
-          <Route path="/" element={<LoginPage />} />
+          <Route path="/login" element={<LoginPage />} />
           <Route path="/join" element={<SignupPage />} />
           <Route path="/re-auth" element={<ReAuth />} />
         </Route>
