@@ -2,7 +2,7 @@ import { theme } from "../../style/theme";
 import styled from "styled-components";
 import yeomiji_logo from "../../assets/yeomiji-logo.svg";
 import InputComponent from "../../components/Input/InputComponent";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AuthService } from "../../api/authService";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -14,6 +14,11 @@ const LoginPage = () => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  useEffect(() => {
+    const expired = location.href.split("?").pop();
+    if (expired === "true") toast.error("다시 로그인!");
+  }, []);
 
   const onEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
@@ -32,7 +37,7 @@ const LoginPage = () => {
       login(userData);
       console.log(userData);
 
-      navigate("/home");
+      navigate("/");
     });
   };
 

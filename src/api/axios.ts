@@ -45,9 +45,10 @@ function createInstance(type: ServerType, baseUrl: string) {
             );
             login(response.data.accessToken, undefined);
           } catch (error) {
-            toast.error("다시 로그인하세요.");
-            location.href = "/";
+            location.href = "/login?expired=true";
           }
+        } else {
+          location.href = "/login?expired=true";
         }
       } else if (error.status === 500) {
         toast.error("펑!@!@! << 서버터지는소리");
