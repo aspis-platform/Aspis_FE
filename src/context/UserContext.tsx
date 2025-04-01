@@ -4,16 +4,19 @@ export type Authority = "MANAGER" | "STAFF" | null;
 
 export type User = {
   authority: Authority;
+  password: string;
 };
 
 const defaultUser: User = {
   authority: localStorage.getItem("user_authority") as Authority,
+  password: "",
 };
 
 interface UserContextType {
   user: User;
   login: (userData: User) => void;
   logout: () => void;
+  reAuth: (userData: User) => void;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -26,12 +29,15 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     localStorage.setItem("user_authority", userData.authority || "");
   };
   const logout = () => {
-    setUser(defaultUser);
     localStorage.removeItem("user_authority");
+    setUser(defaultUser);
+  };
+  const reAuth = (userData: User) => {
+    setUser(userData);
   };
 
   return (
-    <UserContext.Provider value={{ user, login, logout }}>
+    <UserContext.Provider value={{ user, login, logout, reAuth }}>
       {children}
     </UserContext.Provider>
   );

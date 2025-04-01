@@ -3,8 +3,15 @@ import MypageInput from "../../components/Input/MypageInput";
 import { theme } from "../../style/theme";
 import styled from "styled-components";
 import { AuthService } from "../../api/authService";
+import { toast } from "react-toastify";
+import { useUser } from "../../context/UserContext";
+import { useNavigate } from "react-router-dom";
 
 const Mypage = () => {
+  const { user } = useUser();
+  const oldPass = user.password;
+  const navigate = useNavigate();
+
   const [name, setName] = useState("");
   const [newPass, setNewPass] = useState("");
   const [checkPass, setCheckPass] = useState("");
@@ -41,6 +48,24 @@ const Mypage = () => {
     fetchData();
   }, []);
 
+  const onUpdateName = () => {
+    AuthService.userNameUpdate(name);
+  };
+
+  const onUpdatePass = () => {
+    if (newPass != checkPass) {
+      toast.warning("비밀번호를 다시 확인하세요");
+      return;
+    }
+
+    AuthService.userPassUpdate(oldPass, newPass);
+  };
+
+  const onLogout = () => {
+    AuthService.logout();
+    navigate("/login");
+  };
+
   return (
     <StyledSection>
       <FormSection>
@@ -60,7 +85,7 @@ const Mypage = () => {
             />
           </NameSection>
 
-          <BlueButton>수정하기</BlueButton>
+          <BlueButton onClick={onUpdateName}>수정하기</BlueButton>
         </FormContainer>
 
         <FormContainer>
@@ -77,12 +102,12 @@ const Mypage = () => {
             label="비밀번호 확인"
             type="password"
           />
-          <BlueButton>변경하기</BlueButton>
+          <BlueButton onClick={onUpdatePass}>변경하기</BlueButton>
         </FormContainer>
 
         <FormContainer>
           <BigText>로그아웃</BigText>
-          <RedButton>로그아웃</RedButton>
+          <RedButton onClick={onLogout}>로그아웃</RedButton>
         </FormContainer>
       </FormSection>
     </StyledSection>

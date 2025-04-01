@@ -1,8 +1,24 @@
+import React, { useState } from "react";
 import InputComponent from "../../components/Input/InputComponent";
 import { theme } from "../../style/theme";
 import styled from "styled-components";
+import { useUser } from "../../context/UserContext";
+import { useNavigate } from "react-router-dom";
 
 const ReAuth = () => {
+  const [password, setPassword] = useState("");
+  const { user } = useUser();
+  const navigate = useNavigate();
+
+  const onHandleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(event.target.value);
+  };
+
+  const onSubmit = () => {
+    user.password = password;
+    navigate("/mypage");
+  };
+
   return (
     <StyledSection>
       <StyledContainer>
@@ -12,11 +28,11 @@ const ReAuth = () => {
         </Title>
         <FormSection>
           <InputComponent
-            onHandleChange={() => {}}
+            onHandleChange={(event) => onHandleChange(event)}
             type="password"
             label="비밀번호"
           />
-          <Button>로그인</Button>
+          <Button onClick={onSubmit}>인증하기</Button>
         </FormSection>
       </StyledContainer>
     </StyledSection>
