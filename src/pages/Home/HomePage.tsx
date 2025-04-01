@@ -9,11 +9,12 @@ import { useUser } from "../../context/UserContext";
 const HomePage = () => {
   const { user } = useUser();
   const ismanager: boolean = user.authority === "MANAGER";
+  const userName = localStorage.getItem("user_name");
 
   return (
     <HomeSection>
       <HomeContainer>
-        <Title>반갑습니다, 홍길동님</Title>
+        <Title>반갑습니다, {userName}님</Title>
         <CardContainer>
           <StatusCard name="보호중인 애견 수" number={4} unit="마리" />
           <StatusCard name="보호중인 애견 수" number={4} unit="마리" />
