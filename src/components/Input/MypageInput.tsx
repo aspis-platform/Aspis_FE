@@ -28,7 +28,7 @@ const Input = styled.input`
   border-radius: 3px;
   border: 1px solid #b6b6b6;
   padding-left: 12px;
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 500;
 
   @media (max-width: 925px) {
