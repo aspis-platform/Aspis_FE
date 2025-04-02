@@ -33,12 +33,16 @@ const LoginPage = () => {
       return;
     }
 
-    await AuthService.login(email, password, (userData) => {
-      login(userData);
-      console.log(userData);
-
-      navigate("/");
-    });
+    try {
+      await AuthService.login(email, password, (userData) => {
+        login(userData);
+        navigate("/");
+      });
+      const response = await AuthService.getMyInfo();
+      localStorage.setItem("user_name", response.data.userName);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (

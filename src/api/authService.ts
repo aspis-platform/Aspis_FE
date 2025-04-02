@@ -15,10 +15,7 @@ export class AuthService {
         refresh_token: string;
         user_authority: Authority;
       }>("/user/login", { user_email, user_password });
-      const userInfo = await instances["auth"].get("/auth/me");
-
       login(response.data.access_token, response.data.refresh_token);
-      localStorage.setItem("user_name", userInfo.data.userName);
 
       onSuccess({
         authority: response.data.user_authority,
