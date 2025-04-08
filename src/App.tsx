@@ -9,6 +9,10 @@ import ReAuth from "./pages/authentication/ReAuth";
 import Mypage from "./pages/authentication/Mypage";
 import StaffManagement from "./pages/management/StaffManagement";
 import DogManagement from "./pages/management/DogManagement";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import StaffInvite from "./pages/management/StaffInvite";
+import { UserProvider } from "./context/UserContext";
 
 function Layout() {
   return (
@@ -21,22 +25,42 @@ function Layout() {
   );
 }
 
+function ToastLayout() {
+  return (
+    <>
+      <Outlet />
+      <ToastContainer
+        position="bottom-right"
+        autoClose={2000}
+        closeOnClick
+        theme="colored"
+        pauseOnHover
+      />
+    </>
+  );
+}
+
 function App() {
   return (
-    <Routes>
-      {/* 사이드 네비게이션 있는 페이지들 */}
-      <Route path="/" element={<Layout />}>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/mypage" element={<Mypage />} />
-        <Route path="/staff-manage" element={<StaffManagement />} />
-        <Route path="/dog-manage" element={<DogManagement />} />
-      </Route>
+    <UserProvider>
+      <Routes>
+        <Route element={<ToastLayout />}>
+          {/* 사이드 네비게이션 있는 페이지들 */}
+          <Route element={<Layout />}>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/mypage" element={<Mypage />} />
+            <Route path="/staff-manage" element={<StaffManagement />} />
+            <Route path="/dog-manage" element={<DogManagement />} />
+            <Route path="/staff-invite" element={<StaffInvite />} />
+          </Route>
 
-      {/* 사이드 네비게이션 없는 페이지들 */}
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="/signup" element={<SignupPage />} />
-      <Route path="/re-auth" element={<ReAuth />} />
-    </Routes>
+          {/* 사이드 네비게이션 없는 페이지들 */}
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/join" element={<SignupPage />} />
+          <Route path="/re-auth" element={<ReAuth />} />
+        </Route>
+      </Routes>
+    </UserProvider>
   );
 }
 
@@ -46,6 +70,7 @@ const StyledDiv = styled.section`
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
+  position: relative;
 `;
 
 export default App;

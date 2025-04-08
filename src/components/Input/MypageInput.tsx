@@ -5,13 +5,19 @@ import styled from "styled-components";
 interface Prop {
   label: string;
   type: string;
+  placeholder: string;
+  onHandleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const MypageInput = (props: Prop) => {
+const MypageInput = ({ label, type, placeholder, onHandleChange }: Prop) => {
   return (
     <StyledSection>
-      <Label>{props.label}</Label>
-      <Input type={props.type} />
+      <Label>{label}</Label>
+      <Input
+        onChange={(event) => onHandleChange(event)}
+        placeholder={placeholder}
+        type={type}
+      />
     </StyledSection>
   );
 };
@@ -21,6 +27,10 @@ const Input = styled.input`
   height: 48px;
   border-radius: 3px;
   border: 1px solid #b6b6b6;
+  padding-left: 12px;
+  font-size: 20px;
+  font-weight: 500;
+
   @media (max-width: 925px) {
     height: 36px;
   }

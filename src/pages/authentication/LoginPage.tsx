@@ -1,10 +1,50 @@
-import React from "react";
 import { theme } from "../../style/theme";
 import styled from "styled-components";
 import yeomiji_logo from "../../assets/yeomiji-logo.svg";
 import InputComponent from "../../components/Input/InputComponent";
+import React, { useEffect, useState } from "react";
+import { AuthService } from "../../api/authService";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { useUser } from "../../context/UserContext";
 
 const LoginPage = () => {
+  const navigate = useNavigate();
+  const { login } = useUser();
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  useEffect(() => {
+    const expired = location.href.split("?").pop();
+    if (expired === "true") toast.error("다시 로그인!");
+  }, []);
+
+  const onEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(event.target.value);
+  };
+  const onPasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(event.target.value);
+  };
+
+  const onHandleLogin = async () => {
+    if (!email || !password) {
+      toast.warning("이메일과 비밀번호를 모두 입력해주세요.");
+      return;
+    }
+
+    try {
+      await AuthService.login(email, password, (userData) => {
+        login(userData);
+        navigate("/");
+      });
+      const response = await AuthService.getMyInfo();
+      localStorage.setItem("user_name", response.data.userName);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <LoginSection>
       <LoginContainer>
@@ -24,10 +64,18 @@ const LoginPage = () => {
           <StyledSection>
             <LoginTitle>로그인</LoginTitle>
             <InputSection>
-              <InputComponent label={"아이디"} />
-              <InputComponent label={"비밀번호"} />
+              <InputComponent
+                onHandleChange={(event) => onEmailChange(event)}
+                type={"email"}
+                label={"이메일"}
+              />
+              <InputComponent
+                onHandleChange={(event) => onPasswordChange(event)}
+                type={"password"}
+                label={"비밀번호"}
+              />
             </InputSection>
-            <SubmitButton>로그인</SubmitButton>
+            <SubmitButton onClick={onHandleLogin}>로그인</SubmitButton>
           </StyledSection>
         </LoginCard>
       </LoginContainer>
@@ -62,7 +110,7 @@ const AspisCard = styled.div`
   }
 `;
 const Title = styled.div`
-  color: ${theme.color.main[4]};
+  color: ${theme.color.sub[4]};
   font-size: 36px;
   font-weight: 600;
   margin-bottom: 8px;
@@ -92,8 +140,8 @@ const LoginCard = styled.div`
   height: 695px;
   background-color: ${theme.color.white};
   border-radius: 30px;
-  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.5);
   padding: 100px 116px;
+  border: 1px solid ${theme.color.sub[4]};
 
   display: flex;
   justify-content: center;
@@ -137,6 +185,7 @@ const SubmitButton = styled.button`
   font-size: 20px;
   border-radius: 8px;
   cursor: pointer;
+  color: white;
 
   @media (max-width: 925px) {
     height: 48px;
@@ -173,7 +222,7 @@ const LoginContainer = styled.div`
 const LoginSection = styled.section`
   width: 100vw;
   height: 100vh;
-  background-color: ${theme.color.sub[1]};
+  background-color: white;
 
   display: flex;
   justify-content: center;

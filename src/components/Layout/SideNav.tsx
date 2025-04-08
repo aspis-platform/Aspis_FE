@@ -1,15 +1,18 @@
-import React from "react";
 import styled from "styled-components";
 import logo from "../../assets/Aspis-logo-small.svg";
-import home_icon_green from "../../assets/home-icon.svg";
 import home_icon_black from "../../assets/home-icon-black.svg";
 import dog_icon from "../../assets/dog-icon.svg";
 import staff_icon from "../../assets/staff-icon.svg";
 import mypage_icon from "../../assets/mypage-icon.svg";
+import envelope from "../../assets/envelope-img.svg";
 import { theme } from "../../style/theme";
 import { Link } from "react-router-dom";
+import { useUser } from "../../context/UserContext";
 
 const SideNav = () => {
+  const { user } = useUser();
+  const isManager = user.authority === "MANAGER";
+
   return (
     <NavSection>
       <StyledDiv>
@@ -35,19 +38,32 @@ const SideNav = () => {
             </NavButton>
           </Link>
 
-          <Link to={"/staff-manage"} style={{ textDecoration: "none" }}>
-            <NavButton>
-              <img src={staff_icon} alt="" />
-              <p>스태프 관리</p>
-            </NavButton>
-          </Link>
+          {isManager && (
+            <>
+              <Link to={"/staff-manage"} style={{ textDecoration: "none" }}>
+                <NavButton>
+                  <img src={staff_icon} alt="" />
+                  <p>스태프 관리</p>
+                </NavButton>
+              </Link>
+
+              <Link to={"/staff-invite"} style={{ textDecoration: "none" }}>
+                <NavButton>
+                  <img src={envelope} alt="" />
+                  <p>스태프 초대</p>
+                </NavButton>
+              </Link>
+            </>
+          )}
         </ButtonSection>
       </StyledDiv>
 
-      <MypageButton>
-        <img src={mypage_icon} alt="" />
-        <p>마이페이지</p>
-      </MypageButton>
+      <Link to={"/re-auth"} style={{ textDecoration: "none" }}>
+        <MypageButton>
+          <img src={mypage_icon} alt="" />
+          <p>마이페이지</p>
+        </MypageButton>
+      </Link>
     </NavSection>
   );
 };
@@ -68,6 +84,7 @@ const MypageButton = styled.div`
   font-size: 24px;
   font-weight: 600;
   align-items: center;
+  color: black;
 
   @media (max-width: 925px) {
     font-size: 18px;
@@ -107,7 +124,7 @@ const NavButton = styled.div`
   }
 `;
 const Logo = styled.div`
-  color: ${theme.color.main[4]};
+  color: ${theme.color.sub[4]};
   font-size: 36px;
   font-weight: 300;
 
@@ -136,8 +153,8 @@ const NavSection = styled.section`
   height: 100vh;
   padding: 48px 0 80px 60px;
   background-color: ${theme.color.white};
-  box-shadow: 5px 0 10px rgba(0, 0, 0, 0.1);
-  z-index: 10;
+  z-index: 5;
+  border-right: 2px solid ${theme.color.sub[2]};
 
   display: flex;
   flex-direction: column;

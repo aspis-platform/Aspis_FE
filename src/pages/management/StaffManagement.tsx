@@ -1,50 +1,63 @@
-import React from "react";
+import { useEffect, useState } from "react";
 import { theme } from "../../style/theme";
 import styled from "styled-components";
-import plus_icon from "../../assets/plus-icon.svg";
-import check from "../../assets/check-icon.svg";
-import cross from "../../assets/cross-icon.svg";
-
-// 더미 데이터
-const staffList = [
-  { id: 1, name: "홍길동", email: "hello@mail.com", joined: true },
-  { id: 2, name: "홍길동", email: "redroadman@mail.com", joined: false },
-  { id: 3, name: "홍길동", email: "redroadman@mail.com", joined: true },
-  { id: 4, name: "홍길동", email: "redroadman@mail.com", joined: true },
-];
+import { AuthService } from "../../api/authService";
+import Swal from "sweetalert2";
 
 const StaffManagement = () => {
+  type Staff = {
+    id: string;
+    user_name: string;
+    user_email: string;
+    user_authority: string;
+  };
+  const [staffList, setStaffList] = useState<Staff[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await AuthService.getStaffList();
+      setStaffList(response);
+    };
+    fetchData();
+  }, []);
+
+  const onDeleteStaff = (id: string) => {
+    Swal.fire({
+      title: "스태프를 삭제하시겠습니까?",
+      text: "스태프를 삭제하면 복구할 수 없습니다.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#df3232",
+      cancelButtonColor: "#40b6ed",
+      confirmButtonText: "삭제",
+      cancelButtonText: "취소",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        await AuthService.deleteStaff(id);
+      }
+    });
+  };
+
   return (
     <StyledSection>
-      <Title>스태프</Title>
+      <Title>스태프 관리</Title>
       <StyledTable>
-        <AddButton>
-          <p>추가</p>
-          <img src={plus_icon} alt="" />
-        </AddButton>
         <Table>
           <Thead>
             <tr>
               <Th>이름</Th>
               <Th>이메일</Th>
-              <Th>가입 여부</Th>
             </tr>
           </Thead>
           <Tbody>
             {staffList.map((staff) => (
               <Tr key={staff.id}>
-                <Td>{staff.name}</Td>
-                <Td>{staff.email}</Td>
+                <Td>{staff.user_name}</Td>
+                <Td>{staff.user_email}</Td>
                 <Td>
-                  {staff.joined ? (
-                    <img src={check} alt="" />
-                  ) : (
-                    <img src={cross} alt="" />
-                  )}
-                </Td>
-                <Td>
-                  <ActionButton>수정</ActionButton>
-                  <ActionButton>삭제</ActionButton>
+                  <ActionButton onClick={() => onDeleteStaff(staff.id)}>
+                    삭제
+                  </ActionButton>
                 </Td>
               </Tr>
             ))}
@@ -86,33 +99,11 @@ const Th = styled.th`
   padding: 12px;
   font-weight: 500;
   text-align: left;
-
-  &:first-child {
-    border-top-left-radius: 20px;
-  }
-  &:last-child {
-    border-top-right-radius: 20px;
-  }
 `;
 const Table = styled.table`
   width: 100%;
   background-color: ${theme.color.white};
   border-collapse: collapse;
-`;
-const AddButton = styled.button`
-  width: 76px;
-  height: 36px;
-  background-color: ${theme.color.white};
-  border: 2px solid ${theme.color.sub[2]};
-  border-radius: 10px;
-  font-size: 16px;
-  font-weight: 600;
-
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-  align-items: center;
-  cursor: pointer;
 `;
 const StyledTable = styled.div`
   width: 100%;
@@ -124,13 +115,17 @@ const StyledTable = styled.div`
 const Title = styled.h1`
   font-size: 32px;
   font-weight: 600;
-  color: ${theme.color.main[4]};
+  color: black;
 `;
 const StyledSection = styled.section`
   width: 100%;
   height: 100%;
 
-  background-color: ${theme.color.sub[1]};
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+
+  background-color: white;
   padding: 80px 8%;
 `;
 

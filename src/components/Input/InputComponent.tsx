@@ -1,16 +1,17 @@
-import React from "react";
 import { theme } from "../../style/theme";
 import styled from "styled-components";
 
 interface Props {
+  type: string;
   label: string;
+  onHandleChange: (evnet: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const InputComponent = (props: Props) => {
+const InputComponent = ({ label, onHandleChange, type }: Props) => {
   return (
     <InputContainer>
-      <Label>{props.label}</Label>
-      <Input type="text" />
+      <Label>{label}</Label>
+      <Input onChange={(event) => onHandleChange(event)} type={type} />
     </InputContainer>
   );
 };
@@ -30,6 +31,7 @@ const Input = styled.input`
   border: none;
   border-bottom: 1px solid ${theme.color.black};
   padding-left: 12px;
+  font-size: 20px;
   @media (max-width: 925px) {
     height: 40px;
   }
