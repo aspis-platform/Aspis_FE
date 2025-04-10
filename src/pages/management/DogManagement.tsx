@@ -2,38 +2,29 @@ import { theme } from "../../style/theme";
 import styled from "styled-components";
 import { useEffect, useState } from "react";
 import { CoreService } from "../../api/coreService";
-import plus from "../../assets/plus-icon.svg";
-import Table from "src/components/Table/Table";
+import TableComponent from "../../components/Table/Table";
+
+export type DogType = {
+  id: string;
+  name: string;
+  breedId: string;
+  breedInfo: {
+    breedName: string;
+    breedSize: string;
+  };
+  sex: string;
+  animalStatus: string;
+  helperId: string;
+  helperName: string;
+  profileUrl: string;
+  isNeutered: boolean;
+  birthYear: number;
+  age: number;
+};
 
 const DogManagement = () => {
-  type DogType = {
-    id: string;
-    name: string;
-    breedId: string;
-    breedInfo: {
-      breedName: string;
-      breedSize: string;
-    };
-    sex: string;
-    animalStatus: string;
-    helperId: string;
-    helperName: string;
-    profileUrl: string;
-    isNeutered: boolean;
-    birthYear: number;
-  };
   const [dogList, setDogList] = useState<DogType[]>([]);
   const [dogTotal, setDogTotal] = useState(0);
-  const [isCreate, setIsCreate] = useState(false);
-
-  const [dogName, setDogName] = useState("");
-  const [breedId, setBreedId] = useState("");
-  const [helperId, setHelperId] = useState("");
-  const [sex, setSex] = useState("");
-  const [isNeutered, setIsNeutered] = useState(false);
-  const [animalStatus, setAnimalStatus] = useState("");
-  const [birthYear, setBirthYear] = useState(0);
-  const [profileUrl, setprofileUrl] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -42,9 +33,16 @@ const DogManagement = () => {
 
         console.log(response);
 
+        let dogStatus = "보호중";
+        if (response.animalStatus == "PRIMARY") {
+          dogStatus = "보호중";
+        } else if (response.animalStatus == "TEMPORARY") {
+          dogStatus = "임시보호";
+        }
         const thisYear = new Date().getFullYear();
         const withAge = response.map((dog: Omit<DogType, "age">) => ({
           ...dog,
+          animalStatus: dogStatus,
           age: thisYear - dog.birthYear,
         }));
 
@@ -57,10 +55,6 @@ const DogManagement = () => {
 
     fetchData();
   }, []);
-
-  const handleCreate = () => {
-    setIsCreate(!isCreate);
-  };
 
   return (
     <StyledSection>
@@ -86,54 +80,10 @@ const DogManagement = () => {
         <BigButton>저장하기</BigButton>
       </ButtonContainer>
 
-      <TableSection>
-        <ButtonContainer>
-          <AddButton onClick={handleCreate}>
-            추가 <img src={plus} alt="" />
-          </AddButton>
-          <DelButton>선택 삭제</DelButton>
-        </ButtonContainer>
-
-        <Table doglist={dogList} />
-      </TableSection>
+      <TableComponent dogList={dogList} />
     </StyledSection>
   );
 };
-
-const AddButton = styled.button`
-  width: 80px;
-  height: 28px;
-  border: none;
-  background-color: ${theme.color.sub[2]};
-  border-radius: 5px;
-  color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-
-  img {
-    width: 20px;
-    height: 30px;
-  }
-`;
-const DelButton = styled.button`
-  width: 80px;
-  height: 28px;
-  border: none;
-  background-color: ${theme.color.red};
-  border-radius: 5px;
-  color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-`;
-const TableSection = styled.section`
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-`;
 
 const BigButton = styled.button`
   padding: 12px 32px;
@@ -199,7 +149,7 @@ const StyledSection = styled.section`
 
   display: flex;
   flex-direction: column;
-  gap: 48px;
+  gap: 56px;
 `;
 const Title = styled.h1`
   font-size: 32px;
