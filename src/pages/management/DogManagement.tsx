@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { CoreService } from "../../api/coreService";
 import TableComponent from "../../components/Table/Table";
 
+// type 정의 -----------------------------------------------
 export type DogType = {
   id: string;
   name: string;
@@ -20,41 +21,49 @@ export type DogType = {
   isNeutered: boolean;
   birthYear: number;
   age: number;
+  animalStatusDisplay: string;
 };
 
 const DogManagement = () => {
+  // useState -----------------------------------------------
   const [dogList, setDogList] = useState<DogType[]>([]);
   const [dogTotal, setDogTotal] = useState(0);
+  const [temporary, setTemporary] = useState(0);
+  const [primary, setPrimary] = useState(0);
+  const [dataChanged, setDataChanged] = useState(false);
 
+  // 데이터 가져오기 -----------------------------------------------
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await CoreService.getDogInfo();
 
-        console.log(response);
-
-        let dogStatus = "보호중";
-        if (response.animalStatus == "PRIMARY") {
-          dogStatus = "보호중";
-        } else if (response.animalStatus == "TEMPORARY") {
-          dogStatus = "임시보호";
-        }
         const thisYear = new Date().getFullYear();
         const withAge = response.map((dog: Omit<DogType, "age">) => ({
           ...dog,
-          animalStatus: dogStatus,
+          animalStatusDisplay:
+            dog.animalStatus === "PRIMARY" ? "보호중" : "임시보호",
           age: thisYear - dog.birthYear,
         }));
 
+        const tempCount = response.filter(
+          (dog: DogType) => dog.animalStatus === "TEMPORARY"
+        ).length;
+        const primaryCount = response.filter(
+          (dog: DogType) => dog.animalStatus === "PRIMARY"
+        ).length;
+
         setDogList(withAge);
         setDogTotal(response.length);
+        setTemporary(tempCount);
+        setPrimary(primaryCount);
       } catch (error) {
         console.error(error);
       }
     };
 
     fetchData();
-  }, []);
+  }, [dataChanged]);
 
   return (
     <StyledSection>
@@ -63,7 +72,7 @@ const DogManagement = () => {
         <InfoContainer>
           <Total>총{dogTotal}마리</Total>{" "}
           <Sup>
-            임시보호 {6}마리 일반보호 {4}마리
+            임시보호 {temporary}마리 일반보호 {primary}마리
           </Sup>
         </InfoContainer>
       </TextContainer>
@@ -77,10 +86,12 @@ const DogManagement = () => {
           선택한 애견 목록
           <br /> 네임플레이트 출력하기
         </BigButton>
-        <BigButton>저장하기</BigButton>
       </ButtonContainer>
 
-      <TableComponent dogList={dogList} />
+      <TableComponent
+        dogList={dogList}
+        onDataChange={() => setDataChanged((prev) => !prev)}
+      />
     </StyledSection>
   );
 };

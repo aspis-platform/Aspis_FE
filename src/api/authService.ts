@@ -55,7 +55,6 @@ export class AuthService {
       key: key,
       user_password: password,
     };
-    console.log(body);
 
     try {
       await instances["auth"].post("/user/register", body);
