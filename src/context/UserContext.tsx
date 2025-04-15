@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, ReactNode } from "react";
 
-export type Authority = "MANAGER" | "STAFF" | null;
+export type Authority = "MANAGER" | "STAFF";
 
 export type User = {
   authority: Authority;

@@ -12,6 +12,7 @@ const StaffManagement = () => {
     user_authority: string;
   };
   const [staffList, setStaffList] = useState<Staff[]>([]);
+  const [dataChanged, setDataChanged] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -19,7 +20,7 @@ const StaffManagement = () => {
       setStaffList(response);
     };
     fetchData();
-  }, []);
+  }, [dataChanged]);
 
   const onDeleteStaff = (id: string) => {
     Swal.fire({
@@ -34,6 +35,7 @@ const StaffManagement = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         await AuthService.deleteStaff(id);
+        setDataChanged((prev) => !prev);
       }
     });
   };

@@ -38,27 +38,33 @@ const DogManagement = () => {
       try {
         const response = await CoreService.getDogInfo();
 
+        const dogs = Array.isArray(response) ? response : [];
+
         const thisYear = new Date().getFullYear();
-        const withAge = response.map((dog: Omit<DogType, "age">) => ({
+        const withAge = dogs.map((dog: Omit<DogType, "age">) => ({
           ...dog,
           animalStatusDisplay:
             dog.animalStatus === "PRIMARY" ? "보호중" : "임시보호",
           age: thisYear - dog.birthYear,
         }));
 
-        const tempCount = response.filter(
+        const tempCount = dogs.filter(
           (dog: DogType) => dog.animalStatus === "TEMPORARY"
         ).length;
-        const primaryCount = response.filter(
+        const primaryCount = dogs.filter(
           (dog: DogType) => dog.animalStatus === "PRIMARY"
         ).length;
 
         setDogList(withAge);
-        setDogTotal(response.length);
+        setDogTotal(dogs.length);
         setTemporary(tempCount);
         setPrimary(primaryCount);
       } catch (error) {
         console.error(error);
+        setDogList([]);
+        setDogTotal(0);
+        setTemporary(0);
+        setPrimary(0);
       }
     };
 
