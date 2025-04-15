@@ -1,7 +1,7 @@
 import { theme } from "../../style/theme";
 import styled from "styled-components";
 import plus from "../../assets/plus-icon.svg";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { AuthService } from "../../api/authService";
 import StaffInviteModal from "../../components/StaffInviteModal";
 import Swal from "sweetalert2";

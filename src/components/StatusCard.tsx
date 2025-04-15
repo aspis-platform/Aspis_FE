@@ -43,18 +43,18 @@ const CardBox = styled.div`
   }
 `;
 const Name = styled.div`
-  font-size: 20px;
-  font-weight: 600;
+  font-size: 16px;
+  font-weight: 500;
 
   @media (max-width: 925px) {
-    font-size: 16px;
+    font-size: 12px;
   }
 `;
 const CardSection = styled.section`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 16px;
+  gap: 12px;
 
   @media (max-width: 925px) {
     gap: 8px;

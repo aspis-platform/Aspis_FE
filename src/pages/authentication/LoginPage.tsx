@@ -39,7 +39,9 @@ const LoginPage = () => {
         navigate("/");
       });
       const response = await AuthService.getMyInfo();
-      localStorage.setItem("user_name", response.data.userName);
+      if (response) {
+        localStorage.setItem("user_name", response.userName);
+      }
     } catch (error) {
       console.error(error);
     }

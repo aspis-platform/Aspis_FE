@@ -1,63 +1,78 @@
 import { theme } from "../../style/theme";
 import styled from "styled-components";
-import check from "../../assets/check-icon.svg";
-import cross from "../../assets/cross-icon.svg";
+import { useEffect, useState } from "react";
+import { CoreService } from "../../api/coreService";
+import TableComponent from "../../components/Table/Table";
 
-// 더미 데이터
-const dogList = [
-  {
-    id: 1,
-    name: "홍길동",
-    age: 3,
-    gender: "암컷",
-    breed: "포메라니안",
-    size: "소형견",
-    weight: 4,
-    neutering: true,
-    godParent: "홍길동",
-    date: "2025.03.04",
-    condition: "양호",
-    adoptionNTC: true,
-  },
-  {
-    id: 2,
-    name: "홍길동",
-    age: 3,
-    gender: "암컷",
-    breed: "포메라니안",
-    size: "소형견",
-    weight: 4,
-    neutering: false,
-    godParent: "홍길동",
-    date: "2025.03.04",
-    condition: "양호",
-    adoptionNTC: false,
-  },
-  {
-    id: 3,
-    name: "홍길동",
-    age: 3,
-    gender: "암컷",
-    breed: "포메라니안",
-    size: "소형견",
-    weight: 4,
-    neutering: true,
-    godParent: "홍길동",
-    date: "2025.03.04",
-    condition: "양호",
-    adoptionNTC: true,
-  },
-];
+// type 정의 -----------------------------------------------
+export type DogType = {
+  id: string;
+  name: string;
+  breedId: string;
+  breedInfo: {
+    breedName: string;
+    breedSize: string;
+  };
+  sex: string;
+  animalStatus: string;
+  helperId: string;
+  helperName: string;
+  profileUrl: string;
+  isNeutered: boolean;
+  birthYear: number;
+  age: number;
+  animalStatusDisplay: string;
+};
 
 const DogManagement = () => {
+  // useState -----------------------------------------------
+  const [dogList, setDogList] = useState<DogType[]>([]);
+  const [dogTotal, setDogTotal] = useState(0);
+  const [temporary, setTemporary] = useState(0);
+  const [primary, setPrimary] = useState(0);
+  const [dataChanged, setDataChanged] = useState(false);
+
+  // 데이터 가져오기 -----------------------------------------------
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await CoreService.getDogInfo();
+
+        const thisYear = new Date().getFullYear();
+        const withAge = response.map((dog: Omit<DogType, "age">) => ({
+          ...dog,
+          animalStatusDisplay:
+            dog.animalStatus === "PRIMARY" ? "보호중" : "임시보호",
+          age: thisYear - dog.birthYear,
+        }));
+
+        const tempCount = response.filter(
+          (dog: DogType) => dog.animalStatus === "TEMPORARY"
+        ).length;
+        const primaryCount = response.filter(
+          (dog: DogType) => dog.animalStatus === "PRIMARY"
+        ).length;
+
+        setDogList(withAge);
+        setDogTotal(response.length);
+        setTemporary(tempCount);
+        setPrimary(primaryCount);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, [dataChanged]);
+
   return (
     <StyledSection>
       <TextContainer>
         <Title>보호중인 애견 목록</Title>
         <InfoContainer>
-          <Total>총{10}마리</Total>{" "}
+          <Total>총{dogTotal}마리</Total>{" "}
           <Sup>
-            임시보호 {6}마리 일반보호 {4}마리
+            임시보호 {temporary}마리 일반보호 {primary}마리
           </Sup>
         </InfoContainer>
       </TextContainer>
@@ -71,148 +86,40 @@ const DogManagement = () => {
           선택한 애견 목록
           <br /> 네임플레이트 출력하기
         </BigButton>
-        <BigButton>선택한 항목 삭제하기</BigButton>
-        <BigButton>새로운 항목 추가하기</BigButton>
-        <BigButton>저장하기</BigButton>
       </ButtonContainer>
-      <Table>
-        <Thead>
-          <tr>
-            <Th>이름</Th>
-            <Th>나이</Th>
-            <Th>성별</Th>
-            <Th>견종</Th>
-            <Th>크기</Th>
-            <Th>몸무게</Th>
-            <Th>중성화 여부</Th>
-            <Th>대부/대모</Th>
-            <Th>입소일</Th>
-            <Th>상태</Th>
-            <Th>입양공고</Th>
-          </tr>
-        </Thead>
-        <Tbody>
-          {dogList.map((dog) => (
-            <Tr key={dog.id}>
-              <Td>{dog.name}</Td>
-              <Td>{dog.age}세</Td>
-              <Td>{dog.gender}</Td>
-              <Td>{dog.breed}</Td>
-              <Td>{dog.size}</Td>
-              <Td>{dog.weight}kg</Td>
-              <Td>
-                {dog.neutering ? (
-                  <img src={check} alt="" />
-                ) : (
-                  <img src={cross} alt="" />
-                )}
-              </Td>
-              <Td>{dog.godParent}</Td>
-              <Td>{dog.date}</Td>
-              <Td>{dog.condition}</Td>
-              <Td>
-                {dog.adoptionNTC ? (
-                  <img src={check} alt="" />
-                ) : (
-                  <img src={cross} alt="" />
-                )}
-              </Td>
-              <Td>
-                <ActionButton>수정</ActionButton>
-              </Td>
-            </Tr>
-          ))}
-        </Tbody>
-      </Table>
+
+      <TableComponent
+        dogList={dogList}
+        onDataChange={() => setDataChanged((prev) => !prev)}
+      />
     </StyledSection>
   );
 };
 
-const Tbody = styled.tbody`
-  border: 2px solid ${theme.color.sub[2]};
-`;
-const Thead = styled.thead`
-  border: 2px solid ${theme.color.sub[2]};
-`;
-const ActionButton = styled.button`
-  width: 52px;
-  height: 32px;
+const BigButton = styled.button`
+  padding: 12px 32px;
   background-color: ${theme.color.white};
-  border: 2px solid ${theme.color.sub[2]};
+  border: 3px solid ${theme.color.sub[4]};
   border-radius: 10px;
+  font-size: 16px;
+  font-weight: 600;
   cursor: pointer;
 
   @media (max-width: 925px) {
-    width: 42px;
-    height: 22px;
-    border-radius: 6px;
-    font-size: 10px;
+    padding: 2px 6px;
+    font-size: 5px;
     font-weight: 600;
   }
-`;
-const Td = styled.td`
-  padding: 12px;
-
-  &:last-child {
-    display: flex;
-    flex-direction: row;
-    gap: 8px;
-    justify-content: flex-end;
-  }
-
-  @media (max-width: 925px) {
-    img {
-      width: 14px;
-      height: 14px;
-    }
-
-    padding: 12px 4px;
-  }
-`;
-const Tr = styled.tr`
-  border-bottom: 2px solid ${theme.color.sub[2]};
-`;
-const Th = styled.th`
-  padding: 12px 4px;
-  font-weight: 500;
-  text-align: left;
-
-  &:first-child {
-    border-top-left-radius: 20px;
-  }
-  &:last-child {
-    border-top-right-radius: 20px;
-  }
-`;
-const Table = styled.table`
-  width: 100%;
-  background-color: ${theme.color.white};
-  border-collapse: collapse;
-  font-size: 16px;
-  font-weight: 600;
-  @media (max-width: 925px) {
-    font-size: 8px;
-  }
-`;
-const BigButton = styled.button`
-  padding: 16px 32px;
-  background-color: ${theme.color.white};
-  border: 4px solid ${theme.color.sub[4]};
-  border-radius: 10px;
-  font-size: 20px;
-  font-weight: 600;
-
-  @media (max-width: 925px) {
-    padding: 8px 16px;
-    font-size: 10px;
-    font-weight: 600;
+  @media (max-width: 1650px) {
+    padding: 8px 10px;
+    font-size: 18px;
+    font-weight: 500;
   }
 `;
 const ButtonContainer = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
-  width: 100%;
+  gap: 20px;
 `;
 const Total = styled.h4`
   font-size: 24px;
@@ -249,11 +156,11 @@ const StyledSection = styled.section`
   height: 100%;
 
   background-color: white;
-  padding: 80px 8%;
+  padding: 80px 4%;
 
   display: flex;
   flex-direction: column;
-  gap: 60px;
+  gap: 56px;
 `;
 const Title = styled.h1`
   font-size: 32px;

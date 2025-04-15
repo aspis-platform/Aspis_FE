@@ -4,6 +4,7 @@ import { theme } from "../../style/theme";
 import styled from "styled-components";
 import { useUser } from "../../context/UserContext";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const ReAuth = () => {
   const [password, setPassword] = useState("");
@@ -15,6 +16,10 @@ const ReAuth = () => {
   };
 
   const onSubmit = () => {
+    if (!password) {
+      toast.warning("비밀번호를 입력했는지 확인하세요.");
+      return;
+    }
     user.password = password;
     navigate("/mypage");
   };

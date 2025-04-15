@@ -17,9 +17,9 @@ const HomePage = () => {
         <Title>반갑습니다, {userName}님</Title>
         <CardContainer>
           <StatusCard name="보호중인 애견 수" number={4} unit="마리" />
-          <StatusCard name="보호중인 애견 수" number={4} unit="마리" />
-          <StatusCard name="보호중인 애견 수" number={4} unit="마리" />
-          <StatusCard name="보호중인 애견 수" number={4} unit="마리" />
+          <StatusCard name="임시 보호율" number={4} unit="마리" />
+          <StatusCard name="이번주 방문자 수" number={4} unit="마리" />
+          <StatusCard name="이번주 후원금 사용기록" number={4} unit="마리" />
         </CardContainer>
         <ButtonContainer ismanager={ismanager}>
           <Link to={"/dog-manage"} style={{ textDecoration: "none" }}>
