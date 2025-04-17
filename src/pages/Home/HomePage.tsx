@@ -21,7 +21,7 @@ const HomePage = () => {
           <StatusCard name="이번주 방문자 수" number={4} unit="마리" />
           <StatusCard name="이번주 후원금 사용기록" number={4} unit="마리" />
         </CardContainer>
-        <ButtonContainer ismanager={ismanager}>
+        <ButtonContainer $ismanager={ismanager}>
           <Link to={"/dog-manage"} style={{ textDecoration: "none" }}>
             <ButtonBox>
               <p>애견 관리 페이지 바로가기</p>
@@ -85,12 +85,12 @@ const ButtonBox = styled.div`
     }
   }
 `;
-const ButtonContainer = styled.div<{ ismanager: boolean }>`
+const ButtonContainer = styled.div<{ $ismanager: boolean }>`
   width: 100%;
   display: flex;
   flex-direction: row;
-  justify-content: ${({ ismanager }) =>
-    ismanager ? "space-between" : "center"};
+  justify-content: ${({ $ismanager }) =>
+    $ismanager ? "space-between" : "center"};
 `;
 const CardContainer = styled.div`
   width: 100%;

@@ -8,9 +8,10 @@ import { toast } from "react-toastify";
 
 interface ModalProp {
   onClose: () => void;
+  onDataChange: () => void;
 }
 
-const StaffInviteModal = ({ onClose }: ModalProp) => {
+const StaffInviteModal = ({ onDataChange, onClose }: ModalProp) => {
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
@@ -40,6 +41,7 @@ const StaffInviteModal = ({ onClose }: ModalProp) => {
       await AuthService.sendInvitation(email);
       toast.success("초대가 성공적으로 전송되었습니다!");
       onClose();
+      onDataChange();
     } catch (error) {
       toast.success("초대가 성공적으로 전송되었습니다!");
     } finally {

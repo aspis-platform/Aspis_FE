@@ -8,6 +8,7 @@ import Swal from "sweetalert2";
 
 const StaffInvite = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [dataChanged, setDataChanged] = useState(false);
 
   type Staff = { id: string; email: string };
   const [staffList, setStaffList] = useState<Staff[]>([]);
@@ -18,7 +19,7 @@ const StaffInvite = () => {
       setStaffList(response);
     };
     fetchData();
-  }, []);
+  }, [dataChanged]);
 
   const onDeleteInvite = (key: string) => {
     Swal.fire({
@@ -33,6 +34,7 @@ const StaffInvite = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         await AuthService.deleteInvite(key);
+        setDataChanged((prev) => !prev);
       }
     });
   };
@@ -72,6 +74,7 @@ const StaffInvite = () => {
       </Table>
       {isModalOpen && (
         <StaffInviteModal
+          onDataChange={() => setDataChanged((prev) => !prev)}
           onClose={() => {
             setIsModalOpen(false);
           }}
