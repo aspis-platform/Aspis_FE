@@ -27,6 +27,11 @@ jobs:
       run: yarn install
 
     - name: react build
+      env:
+        VITE_AUTH_URL: ${{ secrets.VITE_AUTH_URL }}
+        VITE_CORE_URL: ${{ secrets.VITE_CORE_URL }}
+        VITE_UPLOAD_URL: ${{ secrets.VITE_UPLOAD_URL }}
+        VITE_AI_URL: ${{ secrets.VITE_AI_URL }}
       run: yarn build
 
     - name: S3 Content Copy
