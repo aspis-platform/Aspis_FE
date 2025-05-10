@@ -1,13 +1,29 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="icon" type="image/svg+xml" href="/aspis-logo-round.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Aspis Application</title>
+    <title>Aspis - 여수 여미지동물보호협회 관리 시스템</title>
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
+<script>
+  fetch(
+    "https://web-statistics.ncloud.sbs/api/statistics/connect/ddc2e322708548781d77fb9ba544d6af?visitor=" +
+      (localStorage.getItem("visitorId") || "anonymous")
+  )
+    .then((response) => response.json())
+    .then((data) => {
+      if (!localStorage.getItem("visitorId")) {
+        localStorage.setItem(
+          "visitorId",
+          Math.random().toString(36).substring(2, 15)
+        );
+      }
+    })
+    .catch((error) => console.error("통계 기록 실패:", error));
+</script>
