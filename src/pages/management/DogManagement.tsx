@@ -16,10 +16,17 @@ export type DogType = {
   sex: string;
   animalStatus: string;
   helperId: string;
+  admissionDate: string;
   helperName: string;
   profileUrl: string;
   isNeutered: boolean;
   birthYear: number;
+  latestWeight: {
+    id: string;
+    animalId: string;
+    weight: number;
+    date: string;
+  };
   age: number;
   animalStatusDisplay: string;
 };
@@ -46,6 +53,7 @@ const DogManagement = () => {
           animalStatusDisplay:
             dog.animalStatus === "PRIMARY" ? "보호중" : "임시보호",
           age: thisYear - dog.birthYear,
+          admissionDate: dog.admissionDate.slice(0, 10),
         }));
 
         const tempCount = dogs.filter(
