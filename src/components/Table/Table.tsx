@@ -8,6 +8,7 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import { CoreService } from "../../api/coreService";
 import Swal from "sweetalert2";
+import dayjs from "dayjs";
 
 interface Prop {
   dogList: DogType[];
@@ -106,6 +107,7 @@ const TableComponent = ({ dogList, onDataChange }: Prop) => {
       animalStatus,
       birthYear,
       profileUrl,
+      admissionDate: dayjs(new Date()).format("YYYY-MM-DD"),
     };
 
     try {
@@ -315,7 +317,12 @@ const TableComponent = ({ dogList, onDataChange }: Prop) => {
                     <Td>{dog.sex}</Td>
                     <Td>{dog.breedInfo?.breedName}</Td>
                     <Td>{dog.breedInfo?.breedSize}</Td>
-                    <Td>{"dummy"}kg</Td>
+                    {dog.latestWeight?.weight != null ? (
+                      <Td>{dog.latestWeight.weight}kg</Td>
+                    ) : (
+                      <Td style={{ color: "gray" }}>기록 없음</Td>
+                    )}
+
                     <Td>
                       {dog.isNeutered ? (
                         <img src={check} alt="" />
@@ -324,7 +331,7 @@ const TableComponent = ({ dogList, onDataChange }: Prop) => {
                       )}
                     </Td>
                     <Td>{dog?.helperName}</Td>
-                    <Td>{"dummy"}</Td>
+                    <Td>{dog.admissionDate}</Td>
                     <Td>{dog.animalStatusDisplay}</Td>
                     <Td>
                       <ActionButton onClick={() => handleEdit(dog)}>

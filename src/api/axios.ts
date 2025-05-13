@@ -9,10 +9,7 @@ const instances: Record<ServerType, AxiosInstance> = <
   Record<ServerType, AxiosInstance>
 >{};
 
-export const login = (
-  accessToken: string,
-  refreshToken: string | undefined
-) => {
+export const login = (accessToken: string, refreshToken?: string) => {
   cookies.set("accessToken", accessToken);
   if (refreshToken) cookies.set("refreshToken", refreshToken);
 };
@@ -20,6 +17,7 @@ export const login = (
 export const logout = () => {
   cookies.remove("accessToken");
   cookies.remove("refreshToken");
+  localStorage.clear();
 };
 
 function createInstance(type: ServerType, baseUrl: string) {
@@ -50,11 +48,13 @@ function createInstance(type: ServerType, baseUrl: string) {
                 refresh_token: refreshToken,
               }
             );
-            login(response.data.accessToken, undefined);
+            const accessToken = response.data["access_token"];
+
+            login(accessToken);
 
             const originalRequest = error.config;
             if (originalRequest) {
-              originalRequest.headers.Authorization = `Bearer ${response.data.accessToken}`;
+              originalRequest.headers.Authorization = `Bearer ${accessToken}`;
               return axios(originalRequest);
             }
           } catch (error) {
