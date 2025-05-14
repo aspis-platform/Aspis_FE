@@ -43,14 +43,19 @@ const TableComponent = ({ dogList, onDataChange }: Prop) => {
   const [editHelperId, setEditHelperId] = useState("");
   const [editAnimalStatus, setEditAnimalStatus] = useState("");
   const [editBirthYear, setEditBirthYear] = useState<number>(0);
+  const [editAdmissionDate, setEditAdmissionDate] = useState<string>("");
 
   // 입력값 받는 useState --------------------------------------------------------
   const [name, setName] = useState<string>("");
-  const [breedId, setBreedId] = useState<string>("");
-  const [helperId, setHelperId] = useState<string>("");
+  const [breedId, setBreedId] = useState<string>(
+    "df1e0436-4baa-4896-b94b-814a899109de"
+  );
+  const [helperId, setHelperId] = useState<string>(
+    "37441e24-305e-41ed-941e-d38a8b743fec"
+  );
   const [sex, setSex] = useState<string>("");
   const [isNeutered, setIsNeutered] = useState<boolean>(false);
-  const [animalStatus, setAnimalStatus] = useState<string>("");
+  const [animalStatus, setAnimalStatus] = useState<string>("PRIMARY");
   const [birthYear, setBirthYear] = useState<number>(0);
   const profileUrl =
     "https://drive.ncloud.sbs/b7fc5de4-ee5b-4829-85d3-ec0e9e119797.png";
@@ -80,6 +85,7 @@ const TableComponent = ({ dogList, onDataChange }: Prop) => {
     setEditHelperId(dog.helperId);
     setEditAnimalStatus(dog.animalStatus);
     setEditBirthYear(dog.birthYear);
+    setEditAdmissionDate(dog.admissionDate);
   };
 
   // api 요청 날리는거 --------------------------------------------------------
@@ -99,14 +105,14 @@ const TableComponent = ({ dogList, onDataChange }: Prop) => {
     }
 
     const body = {
-      name,
-      breedId,
-      helperId,
-      sex,
-      isNeutered,
-      animalStatus,
-      birthYear,
-      profileUrl,
+      name: name,
+      breedId: breedId,
+      helperId: helperId,
+      sex: sex,
+      isNeutered: isNeutered,
+      animalStatus: animalStatus,
+      birthYear: birthYear,
+      profileUrl: profileUrl,
       admissionDate: dayjs(new Date()).format("YYYY-MM-DD"),
     };
 
@@ -173,6 +179,7 @@ const TableComponent = ({ dogList, onDataChange }: Prop) => {
       animalStatus: editAnimalStatus,
       birthYear: editBirthYear,
       profileUrl,
+      admissionDate: editAdmissionDate,
     };
 
     try {
@@ -231,6 +238,7 @@ const TableComponent = ({ dogList, onDataChange }: Prop) => {
                     </Td>
                     <Td>
                       <StyledSelect
+                        defaultValue={"FEMALE"}
                         value={editSex}
                         onChange={(e) => setEditSex(e.target.value)}
                       >
@@ -262,6 +270,7 @@ const TableComponent = ({ dogList, onDataChange }: Prop) => {
                     </Td>
                     <Td>
                       <StyledSelect
+                        defaultValue={"false"}
                         value={editIsNeutered.toString()}
                         onChange={(e) =>
                           setEditIsNeutered(e.target.value === "true")
@@ -363,7 +372,10 @@ const TableComponent = ({ dogList, onDataChange }: Prop) => {
               <option value="FEMALE">여</option>
               <option value="MALE">남</option>
             </StyledSelect>
-            <StyledSelect onChange={(e) => setBreedId(e.target.value)}>
+            <StyledSelect
+              value={breedId}
+              onChange={(e) => setBreedId(e.target.value)}
+            >
               {breedList &&
                 breedList.map((breed) => (
                   <option key={breed.id} value={breed.id}>

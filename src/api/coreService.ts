@@ -11,6 +11,7 @@ interface Props {
     animalStatus: string;
     birthYear: number;
     profileUrl: string;
+    admissionDate: string;
   };
 }
 
